@@ -143,6 +143,10 @@
         "gendered attraction": "gendered attraction label",
         "gendered attraction_tooltip": "gendered attraction tooltip",
         "sexuality labels": "sexuality labels label",
-        "sexuality labels_tooltip": "sexuality labels tooltip"
+        "sexuality labels_tooltip": "sexuality labels tooltip",
+        "less info":"simplified cat profiles",
+        "less info_tooltip":"hide extra cat info in the history tab instead of dumping it all in the profile.",
+        "warriorified gender":"use cat-ish gender terms",
+        "warriorified gender_tooltip":"IE: molly instead of she-cat, tom instead of male/man, sam instead of nonbinary, jack instead of intersex"
     }
 }
