@@ -2206,10 +2206,19 @@
         "illness_infectiousness": [
         ],
         "risks": [
+            {
+                "name": "shock",
+                "chance": 10
+            },
+            {
+                "name":"lingering shock",
+                "chance": 5
+            }
         ],
         "also_got": [
         ],
         "cause_permanent": [
+            
         ],
         "herbs": {
             "1": [],

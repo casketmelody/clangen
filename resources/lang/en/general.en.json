@@ -196,6 +196,7 @@
             "genderdoe":"genderdoe",
             "genderfaun":"genderfaun",
             "genderflux":"genderflux",
+            "genderfae":"genderfae",
 
             "genderqueer":"genderqueer",
             "gendervoid":"gendervoid",
@@ -241,6 +242,7 @@
             "genderflux":"genderflux",
             "genderdoe":"molly-fluid",
             "genderfaun":"tom-fluid",
+            "genderfae":"mollyfluid",
 
             "genderqueer":"genderqueer",
             "gendervoid":"genderless",

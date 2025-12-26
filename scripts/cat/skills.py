@@ -944,6 +944,29 @@ class CatSkills:
             return "???"
 
         return output
+    
+    def raw_skill(self,short=True):
+        output = ""
+
+        if short:
+            if self.primary:
+                output += (self.primary.get_short_skill())
+            if self.secondary and self.tertiary:
+                output += ", " +(self.secondary.get_short_skill()) + " & " + (self.tertiary.get_short_skill())
+            elif self.secondary:
+                output += " & " + (self.secondary.get_short_skill())
+        else:
+            if self.primary:
+                output += self.primary.skill
+            if self.secondary and self.tertiary:
+                output += ", " + self.secondary.skill + " & " + self.tertiary.skill
+            elif self.secondary:
+                output += " & " + self.secondary.skill
+
+        if not output:
+            return "???"
+
+        return output
 
     def mentor_influence(self, mentor):
         """Handles mentor influence on the cat's skill

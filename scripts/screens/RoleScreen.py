@@ -474,36 +474,24 @@ class RoleScreen(Screens):
         else:
             deputy_invalid = True
 
-        # start by disabling all
-        self.promote_leader.disable()
-        self.promote_deputy.disable()
+        if self.the_cat.status.rank == CatRank.KITTEN:
+            # LEADERSHIP
+            self.promote_leader.disable()
+            self.promote_deputy.disable()
 
-        self.switch_warrior.disable()
-        self.switch_med_cat.disable()
-        self.switch_mediator.disable()
-        self.switch_caretaker.disable()
-        self.switch_messenger.disable()
-        self.switch_denkeeper.disable()
-        self.switch_gardener.disable()
-        self.switch_storyteller.disable()
-        self.retire.disable()
-        self.kitmote.disable()
+            # ADULT CAT ROLES
+            self.switch_warrior.disable()
+            self.switch_med_cat.disable()
+            self.switch_mediator.disable()
+            self.switch_caretaker.disable()
+            self.switch_messenger.disable()
+            self.switch_denkeeper.disable()
+            self.switch_gardener.disable()
+            self.switch_storyteller.disable()
+            self.retire.disable()
+            self.kitmote.disable()
 
-        self.switch_med_app.disable()
-        self.switch_warrior_app.disable()
-        self.switch_mediator_app.disable()
-        self.switch_caretaker_app.disable()
-        self.switch_messenger_app.disable()
-        self.switch_denkeeper_app.disable()
-        self.switch_gardener_app.disable()
-        self.switch_storyteller_app.disable()
-
-        # first check for training
-        if (
-            self.the_cat.status.rank.is_any_apprentice_rank()
-            or self.the_cat.status.rank == CatRank.KITTEN
-            ):
-            # ENABLE ALL TRAININGS
+            # In-TRAINING ROLES:
             self.switch_med_app.enable()
             self.switch_warrior_app.enable()
             self.switch_mediator_app.enable()
@@ -512,151 +500,735 @@ class RoleScreen(Screens):
             self.switch_denkeeper_app.enable()
             self.switch_gardener_app.enable()
             self.switch_storyteller_app.enable()
-            #and also babymode
+
+        if self.the_cat.status.rank == CatRank.APPRENTICE:
+            # LEADERSHIP
+            self.promote_leader.disable()
+            self.promote_deputy.disable()
+
+            # ADULT CAT ROLES
+            self.switch_warrior.enable()
+            self.switch_med_cat.disable()
+            self.switch_mediator.disable()
+            self.switch_caretaker.disable()
+            self.switch_messenger.disable()
+            self.switch_denkeeper.disable()
+            self.switch_gardener.disable()
+            self.switch_storyteller.disable()
+            self.retire.disable()
             self.kitmote.enable()
 
-            if self.the_cat.status.rank == CatRank.APPRENTICE:
-                self.switch_warrior_app.disable()
-                self.switch_warrior.enable()
-            elif self.the_cat.status.rank == CatRank.MEDICINE_APPRENTICE:
-                self.switch_med_app.disable()
-                self.switch_med_cat.enable()
-            elif self.the_cat.status.rank == CatRank.MEDIATOR_APPRENTICE:
-                self.switch_mediator_app.disable()
-                self.switch_mediator.enable()
-            elif self.the_cat.status.rank == CatRank.CARETAKER_APPRENTICE:
-                self.switch_caretaker_app.disable()
-                self.switch_caretaker.enable()
-            elif self.the_cat.status.rank == CatRank.MESSENGER_APPRENTICE:
-                self.switch_messenger_app.disable()
-                self.switch_messenger.enable()
-            elif self.the_cat.status.rank == CatRank.DENKEEPER_APPRENTICE:
-                self.switch_denkeeper_app.disable()
-                self.switch_denkeeper.enable()
-            elif self.the_cat.status.rank == CatRank.GARDENER_APPRENTICE:
-                self.switch_gardener_app.disable()
-                self.switch_gardener.enable()
-            elif self.the_cat.status.rank == CatRank.STORYTELLER_APPRENTICE:
-                self.switch_storyteller_app.disable()
-                self.switch_storyteller.enable()
-            elif self.the_cat.status.rank == CatRank.KITTEN:
-                self.kitmote.disable()
+            # In-TRAINING ROLES:
+            self.switch_med_app.enable()
+            self.switch_warrior_app.disable()
+            self.switch_mediator_app.enable()
+            self.switch_caretaker_app.enable()
+            self.switch_messenger_app.enable()
+            self.switch_denkeeper_app.enable()
+            self.switch_gardener_app.enable()
+            self.switch_storyteller_app.enable()
 
-        # now we check for leader/deputy eligible roles
-        else:
+
+        elif self.the_cat.status.rank == CatRank.WARRIOR:
+            # LEADERSHIP
             if leader_invalid:
                 self.promote_leader.enable()
+            else:
+                self.promote_leader.disable()
 
             if deputy_invalid:
                 self.promote_deputy.enable()
+            else:
+                self.promote_deputy.disable()
 
-            if self.the_cat.status.rank == CatRank.ELDER:
-                self.switch_warrior.enable()
-                self.switch_med_cat.enable()
-                self.switch_mediator.enable()
-                self.switch_caretaker.enable()
-                self.switch_messenger.enable()
-                self.switch_denkeeper.enable()
-                self.switch_gardener.enable()
-                self.switch_storyteller.enable()
-                self.kitmote.disable()
-                self.retire.disable()
-            elif self.the_cat.status.rank == CatRank.WARRIOR:
-                self.switch_med_cat.enable()
-                self.switch_mediator.enable()
-                self.switch_caretaker.enable()
-                self.switch_messenger.enable()
-                self.switch_denkeeper.enable()
-                self.switch_gardener.enable()
-                self.switch_storyteller.enable()
-                self.retire.enable()
-                self.kitmote.disable()
-                self.switch_warrior.disable()
-                self.switch_warrior_app.enable()
-            elif self.the_cat.status.rank == CatRank.MEDIATOR:
-                self.switch_mediator.disable()
-                self.switch_mediator_app.enable()
-                self.switch_warrior.enable()
-                self.switch_med_cat.enable()
-                self.switch_caretaker.enable()
-                self.switch_messenger.enable()
-                self.switch_denkeeper.enable()
-                self.switch_gardener.enable()
-                self.switch_storyteller.enable()
-                self.retire.enable()
-                self.kitmote.disable()
-            elif self.the_cat.status.rank == CatRank.CARETAKER:
-                self.switch_caretaker.disable()
-                self.switch_caretaker_app.enable()
-                self.switch_warrior.enable()
-                self.switch_med_cat.enable()
-                self.switch_mediator.enable()
-                self.switch_messenger.enable()
-                self.switch_denkeeper.enable()
-                self.switch_gardener.enable()
-                self.switch_storyteller.enable()
-                self.retire.enable()
-                self.kitmote.disable()
-            elif self.the_cat.status.rank == CatRank.MEDICINE_CAT:
-                self.switch_caretaker.enable()
-                self.switch_warrior.enable()
-                self.switch_med_cat.disable()
-                self.switch_med_app.enable()
-                self.switch_mediator.enable()
-                self.switch_messenger.enable()
-                self.switch_denkeeper.enable()
-                self.switch_gardener.enable()
-                self.switch_storyteller.enable()
-                self.retire.enable()
-                self.kitmote.disable()
-            elif self.the_cat.status.rank == CatRank.MESSENGER:
-                self.switch_messenger.disable()
-                self.switch_messenger_app.enable()
-                self.switch_warrior.enable()
-                self.switch_med_cat.enable()
-                self.switch_mediator.enable()
-                self.switch_caretaker.enable()
-                self.switch_denkeeper.enable()
-                self.switch_gardener.enable()
-                self.switch_storyteller.enable()
-                self.retire.enable()
-                self.kitmote.disable()
-            elif self.the_cat.status.rank == CatRank.DENKEEPER:
-                self.switch_denkeeper.disable()
-                self.switch_denkeeper_app.enable()
-                self.switch_warrior.enable()
-                self.switch_med_cat.enable()
-                self.switch_mediator.enable()
-                self.switch_caretaker.enable()
-                self.switch_messenger.enable()
-                self.switch_gardener.enable()
-                self.switch_storyteller.enable()
-                self.retire.enable()
-                self.kitmote.disable()
-            elif self.the_cat.status.rank == CatRank.STORYTELLER:
-                self.switch_storyteller.disable()
-                self.switch_storyteller_app.enable()
-                self.switch_warrior.enable()
-                self.switch_med_cat.enable()
-                self.switch_mediator.enable()
-                self.switch_caretaker.enable()
-                self.switch_messenger.enable()
-                self.switch_denkeeper.enable()
-                self.switch_gardener.enable()
-                self.retire.enable()
-                self.kitmote.disable()
-            elif self.the_cat.status.rank == CatRank.GARDENER:
-                self.switch_gardener.disable()
-                self.switch_gardener_app.enable()
-                self.switch_warrior.enable()
-                self.switch_med_cat.enable()
-                self.switch_mediator.enable()
-                self.switch_caretaker.enable()
-                self.switch_messenger.enable()
-                self.switch_denkeeper.enable()
-                self.switch_storyteller.enable()
-                self.retire.enable()
-                self.kitmote.disable()
+            # ADULT CAT ROLES
+            self.switch_warrior.disable()
+            self.switch_med_cat.enable()
+            self.switch_mediator.enable()
+            self.switch_caretaker.enable()
+            self.switch_messenger.enable()
+            self.switch_denkeeper.enable()
+            self.switch_gardener.enable()
+            self.switch_storyteller.enable()
+            self.retire.enable()
+            self.kitmote.disable()
+
+            # In-TRAINING ROLES:
+            self.switch_med_app.disable()
+            self.switch_warrior_app.enable()
+            self.switch_mediator_app.disable()
+            self.switch_caretaker_app.disable()
+            self.switch_messenger_app.disable()
+            self.switch_denkeeper_app.disable()
+            self.switch_gardener_app.disable()
+            self.switch_storyteller_app.disable()
+
+        elif self.the_cat.status.rank == CatRank.DEPUTY:
+            if leader_invalid:
+                self.promote_leader.enable()
+            else:
+                self.promote_leader.disable()
+
+            self.promote_deputy.disable()
+
+            # ADULT CAT ROLES
+            self.switch_warrior.enable()
+            self.switch_med_cat.disable()
+            self.switch_mediator.disable()
+            self.switch_caretaker.disable()
+            self.switch_messenger.disable()
+            self.switch_denkeeper.disable()
+            self.switch_gardener.disable()
+            self.switch_storyteller.disable()
+            self.retire.enable()
+            self.kitmote.disable()
+
+            # In-TRAINING ROLES:
+            self.switch_med_app.disable()
+            self.switch_warrior_app.disable()
+            self.switch_mediator_app.disable()
+            self.switch_caretaker_app.disable()
+            self.switch_messenger_app.disable()
+            self.switch_denkeeper_app.disable()
+            self.switch_gardener_app.disable()
+            self.switch_storyteller_app.disable()
+
+        elif self.the_cat.status.rank == CatRank.MEDICINE_CAT:
+            self.promote_leader.disable()
+            self.promote_deputy.disable()
+
+            self.switch_warrior.enable()
+            self.switch_med_cat.disable()
+            self.switch_mediator.enable()
+            self.switch_caretaker.enable()
+            self.switch_messenger.enable()
+            self.switch_denkeeper.enable()
+            self.switch_gardener.enable()
+            self.switch_storyteller.enable()
+            self.retire.enable()
+            self.kitmote.disable()
+
+            # In-TRAINING ROLES:
+            self.switch_med_app.enable()
+            self.switch_warrior_app.disable()
+            self.switch_mediator_app.disable()
+            self.switch_caretaker_app.disable()
+            self.switch_messenger_app.disable()
+            self.switch_denkeeper_app.disable()
+            self.switch_gardener_app.disable()
+            self.switch_storyteller_app.disable()
+
+        elif self.the_cat.status.rank == CatRank.MEDIATOR:
+            if leader_invalid:
+                self.promote_leader.enable()
+            else:
+                self.promote_leader.disable()
+
+            if deputy_invalid:
+                self.promote_deputy.enable()
+            else:
+                self.promote_deputy.disable()
+
+            self.switch_warrior.enable()
+            self.switch_med_cat.enable()
+            self.switch_mediator.disable()
+            self.switch_caretaker.enable()
+            self.switch_messenger.enable()
+            self.switch_denkeeper.enable()
+            self.switch_gardener.enable()
+            self.switch_storyteller.enable()
+            self.retire.enable()
+            self.kitmote.disable()
+
+            # In-TRAINING ROLES:
+            self.switch_med_app.disable()
+            self.switch_warrior_app.disable()
+            self.switch_mediator_app.enable()
+            self.switch_caretaker_app.disable()
+            self.switch_messenger_app.disable()
+            self.switch_denkeeper_app.disable()
+            self.switch_gardener_app.disable()
+            self.switch_storyteller_app.disable()
+        
+        elif self.the_cat.status.rank == CatRank.CARETAKER:
+            if leader_invalid:
+                self.promote_leader.enable()
+            else:
+                self.promote_leader.disable()
+
+            if deputy_invalid:
+                self.promote_deputy.enable()
+            else:
+                self.promote_deputy.disable()
+
+            self.switch_warrior.enable()
+            self.switch_med_cat.enable()
+            self.switch_mediator.enable()
+            self.switch_caretaker.disable()
+            self.switch_messenger.enable()
+            self.switch_denkeeper.enable()
+            self.switch_gardener.enable()
+            self.switch_storyteller.enable()
+            self.retire.enable()
+            self.kitmote.disable()
+
+            # In-TRAINING ROLES:
+            self.switch_med_app.disable()
+            self.switch_warrior_app.disable()
+            self.switch_mediator_app.disable()
+            self.switch_caretaker_app.enable()
+            self.switch_messenger_app.disable()
+            self.switch_denkeeper_app.disable()
+            self.switch_gardener_app.disable()
+            self.switch_storyteller_app.disable()
+        
+        elif self.the_cat.status.rank == CatRank.MESSENGER:
+            if leader_invalid:
+                self.promote_leader.enable()
+            else:
+                self.promote_leader.disable()
+
+            if deputy_invalid:
+                self.promote_deputy.enable()
+            else:
+                self.promote_deputy.disable()
+
+            self.switch_warrior.enable()
+            self.switch_med_cat.enable()
+            self.switch_mediator.enable()
+            self.switch_caretaker.enable()
+            self.switch_messenger.disable()
+            self.switch_denkeeper.enable()
+            self.switch_gardener.enable()
+            self.switch_storyteller.enable()
+            self.retire.enable()
+            self.kitmote.disable()
+
+            # In-TRAINING ROLES:
+            self.switch_med_app.disable()
+            self.switch_warrior_app.disable()
+            self.switch_mediator_app.disable()
+            self.switch_caretaker_app.disable()
+            self.switch_messenger_app.enable()
+            self.switch_denkeeper_app.disable()
+            self.switch_gardener_app.disable()
+            self.switch_storyteller_app.disable()
+        
+        elif self.the_cat.status.rank == CatRank.DENKEEPER:
+            if leader_invalid:
+                self.promote_leader.enable()
+            else:
+                self.promote_leader.disable()
+
+            if deputy_invalid:
+                self.promote_deputy.enable()
+            else:
+                self.promote_deputy.disable()
+
+            self.switch_warrior.enable()
+            self.switch_med_cat.enable()
+            self.switch_mediator.enable()
+            self.switch_caretaker.enable()
+            self.switch_messenger.enable()
+            self.switch_denkeeper.disable()
+            self.switch_gardener.enable()
+            self.switch_storyteller.enable()
+            self.retire.enable()
+            self.kitmote.disable()
+
+            # In-TRAINING ROLES:
+            self.switch_med_app.disable()
+            self.switch_warrior_app.disable()
+            self.switch_mediator_app.disable()
+            self.switch_caretaker_app.disable()
+            self.switch_messenger_app.disable()
+            self.switch_denkeeper_app.enable()
+            self.switch_gardener_app.disable()
+            self.switch_storyteller_app.disable()
+        
+        elif self.the_cat.status.rank == CatRank.GARDENER:
+            if leader_invalid:
+                self.promote_leader.enable()
+            else:
+                self.promote_leader.disable()
+
+            if deputy_invalid:
+                self.promote_deputy.enable()
+            else:
+                self.promote_deputy.disable()
+
+            self.switch_warrior.enable()
+            self.switch_med_cat.enable()
+            self.switch_mediator.enable()
+            self.switch_caretaker.enable()
+            self.switch_messenger.enable()
+            self.switch_denkeeper.enable()
+            self.switch_gardener.disable()
+            self.switch_storyteller.enable()
+            self.retire.enable()
+            self.kitmote.disable()
+
+            # In-TRAINING ROLES:
+            self.switch_med_app.disable()
+            self.switch_warrior_app.disable()
+            self.switch_mediator_app.disable()
+            self.switch_caretaker_app.disable()
+            self.switch_messenger_app.disable()
+            self.switch_denkeeper_app.disable()
+            self.switch_gardener_app.enable()
+            self.switch_storyteller_app.disable()
+
+        elif self.the_cat.status.rank == CatRank.ELDER:
+            if leader_invalid:
+                self.promote_leader.enable()
+            else:
+                self.promote_leader.disable()
+
+            if deputy_invalid:
+                self.promote_deputy.enable()
+            else:
+                self.promote_deputy.disable()
+
+            # ADULT CAT ROLES
+            self.switch_warrior.enable()
+            self.switch_med_cat.enable()
+            self.switch_mediator.enable()
+            self.switch_caretaker.enable()
+            self.switch_messenger.enable()
+            self.switch_denkeeper.enable()
+            self.switch_gardener.enable()
+            self.switch_storyteller.enable()
+            self.retire.disable()
+            self.kitmote.disable()
+
+            # In-TRAINING ROLES:
+            self.switch_med_app.disable()
+            self.switch_warrior_app.disable()
+            self.switch_mediator_app.disable()
+            self.switch_caretaker_app.disable()
+            self.switch_messenger_app.disable()
+            self.switch_denkeeper_app.disable()
+            self.switch_gardener_app.disable()
+            self.switch_storyteller_app.disable()
+
+        elif self.the_cat.status.rank == CatRank.MEDICINE_APPRENTICE:
+            self.promote_leader.disable()
+            self.promote_deputy.disable()
+
+            # ADULT CAT ROLES
+            self.switch_warrior.disable()
+            self.switch_med_cat.enable()
+            self.switch_mediator.disable()
+            self.switch_caretaker.disable()
+            self.switch_messenger.disable()
+            self.switch_denkeeper.disable()
+            self.switch_gardener.disable()
+            self.switch_storyteller.disable()
+            self.retire.disable()
+            self.kitmote.enable()
+
+            # In-TRAINING ROLES:
+            self.switch_med_app.disable()
+            self.switch_warrior_app.enable()
+            self.switch_mediator_app.enable()
+            self.switch_caretaker_app.enable()
+            self.switch_messenger_app.enable()
+            self.switch_denkeeper_app.enable()
+            self.switch_gardener_app.enable()
+            self.switch_storyteller_app.enable()
+
+        elif self.the_cat.status.rank == CatRank.MEDIATOR_APPRENTICE:
+            self.promote_leader.disable()
+            self.promote_deputy.disable()
+
+            # ADULT CAT ROLES
+            self.switch_warrior.disable()
+            self.switch_med_cat.disable()
+            self.switch_mediator.enable()
+            self.switch_caretaker.disable()
+            self.switch_messenger.disable()
+            self.switch_denkeeper.disable()
+            self.switch_gardener.disable()
+            self.switch_storyteller.disable()
+            self.retire.disable()
+            self.kitmote.enable()
+
+            # In-TRAINING ROLES:
+            self.switch_med_app.enable()
+            self.switch_warrior_app.enable()
+            self.switch_mediator_app.disable()
+            self.switch_caretaker_app.enable()
+            self.switch_messenger_app.enable()
+            self.switch_denkeeper_app.enable()
+            self.switch_gardener_app.enable()
+            self.switch_storyteller_app.enable()
+        
+        elif self.the_cat.status.rank == CatRank.CARETAKER_APPRENTICE:
+            self.promote_leader.disable()
+            self.promote_deputy.disable()
+
+            # ADULT CAT ROLES
+            self.switch_warrior.disable()
+            self.switch_med_cat.disable()
+            self.switch_mediator.disable()
+            self.switch_caretaker.enable()
+            self.switch_messenger.disable()
+            self.switch_denkeeper.disable()
+            self.switch_gardener.disable()
+            self.switch_storyteller.disable()
+            self.retire.disable()
+            self.kitmote.enable()
+
+            # In-TRAINING ROLES:
+            self.switch_med_app.enable()
+            self.switch_warrior_app.enable()
+            self.switch_mediator_app.enable()
+            self.switch_caretaker_app.disable()
+            self.switch_messenger_app.enable()
+            self.switch_denkeeper_app.enable()
+            self.switch_gardener_app.enable()
+            self.switch_storyteller_app.enable()
+        
+        elif self.the_cat.status.rank == CatRank.MESSENGER_APPRENTICE:
+            self.promote_leader.disable()
+            self.promote_deputy.disable()
+
+            # ADULT CAT ROLES
+            self.switch_warrior.disable()
+            self.switch_med_cat.disable()
+            self.switch_mediator.disable()
+            self.switch_caretaker.disable()
+            self.switch_messenger.enable()
+            self.switch_denkeeper.disable()
+            self.switch_gardener.disable()
+            self.switch_storyteller.disable()
+            self.retire.disable()
+            self.kitmote.enable()
+
+            # In-TRAINING ROLES:
+            self.switch_med_app.enable()
+            self.switch_warrior_app.enable()
+            self.switch_mediator_app.enable()
+            self.switch_caretaker_app.enable()
+            self.switch_messenger_app.disable()
+            self.switch_denkeeper_app.enable()
+            self.switch_gardener_app.enable()
+            self.switch_storyteller_app.enable()
+        
+        elif self.the_cat.status.rank == CatRank.DENKEEPER_APPRENTICE:
+            self.promote_leader.disable()
+            self.promote_deputy.disable()
+
+            # ADULT CAT ROLES
+            self.switch_warrior.disable()
+            self.switch_med_cat.disable()
+            self.switch_mediator.disable()
+            self.switch_caretaker.disable()
+            self.switch_messenger.disable()
+            self.switch_denkeeper.enable()
+            self.switch_gardener.disable()
+            self.switch_storyteller.disable()
+            self.retire.disable()
+            self.kitmote.enable()
+
+            # In-TRAINING ROLES:
+            self.switch_med_app.enable()
+            self.switch_warrior_app.enable()
+            self.switch_mediator_app.enable()
+            self.switch_caretaker_app.enable()
+            self.switch_messenger_app.enable()
+            self.switch_denkeeper_app.disable()
+            self.switch_gardener_app.enable()
+            self.switch_storyteller_app.enable()
+        
+        elif self.the_cat.status.rank == CatRank.GARDENER_APPRENTICE:
+            self.promote_leader.disable()
+            self.promote_deputy.disable()
+
+            # ADULT CAT ROLES
+            self.switch_warrior.disable()
+            self.switch_med_cat.disable()
+            self.switch_mediator.disable()
+            self.switch_caretaker.disable()
+            self.switch_messenger.disable()
+            self.switch_denkeeper.disable()
+            self.switch_gardener.enable()
+            self.switch_storyteller.disable()
+            self.retire.disable()
+            self.kitmote.enable()
+
+            # In-TRAINING ROLES:
+            self.switch_med_app.enable()
+            self.switch_warrior_app.enable()
+            self.switch_mediator_app.enable()
+            self.switch_caretaker_app.enable()
+            self.switch_messenger_app.enable()
+            self.switch_denkeeper_app.enable()
+            self.switch_gardener_app.disable()
+            self.switch_storyteller_app.enable()
+        
+        elif self.the_cat.status.rank == CatRank.GARDENER_APPRENTICE:
+            self.promote_leader.disable()
+            self.promote_deputy.disable()
+
+            # ADULT CAT ROLES
+            self.switch_warrior.disable()
+            self.switch_med_cat.disable()
+            self.switch_mediator.disable()
+            self.switch_caretaker.disable()
+            self.switch_messenger.disable()
+            self.switch_denkeeper.disable()
+            self.switch_gardener.disable()
+            self.switch_storyteller.enable()
+            self.retire.disable()
+            self.kitmote.enable()
+
+            # In-TRAINING ROLES:
+            self.switch_med_app.enable()
+            self.switch_warrior_app.enable()
+            self.switch_mediator_app.enable()
+            self.switch_caretaker_app.enable()
+            self.switch_messenger_app.enable()
+            self.switch_denkeeper_app.enable()
+            self.switch_gardener_app.enable()
+            self.switch_storyteller_app.disable()
+
+        elif self.the_cat.status.is_leader:
+            self.promote_leader.disable()
+            self.promote_deputy.disable()
+
+            # ADULT CAT ROLES
+            self.switch_warrior.enable()
+            self.switch_med_cat.disable()
+            self.switch_mediator.disable()
+            self.switch_caretaker.disable()
+            self.switch_messenger.disable()
+            self.switch_denkeeper.disable()
+            self.switch_gardener.disable()
+            self.switch_storyteller.disable()
+            self.retire.enable()
+            self.kitmote.disable()
+
+            # In-TRAINING ROLES:
+            self.switch_med_app.disable()
+            self.switch_warrior_app.disable()
+            self.switch_mediator_app.disable()
+            self.switch_caretaker_app.disable()
+            self.switch_messenger_app.disable()
+            self.switch_denkeeper_app.disable()
+            self.switch_gardener_app.disable()
+            self.switch_storyteller_app.disable()
+
+        else:
+            self.promote_leader.disable()
+            self.promote_deputy.disable()
+
+            # ADULT CAT ROLES
+            self.switch_warrior.disable()
+            self.switch_med_cat.disable()
+            self.switch_mediator.disable()
+            self.switch_caretaker.disable()
+            self.switch_messenger.disable()
+            self.switch_denkeeper.disable()
+            self.switch_gardener.disable()
+            self.switch_storyteller.disable()
+            self.retire.disable()
+            self.kitmote.disable()
+
+            # In-TRAINING ROLES:
+            self.switch_med_app.disable()
+            self.switch_warrior_app.disable()
+            self.switch_mediator_app.disable()
+            self.switch_caretaker_app.disable()
+            self.switch_messenger_app.disable()
+            self.switch_denkeeper_app.disable()
+            self.switch_gardener_app.disable()
+            self.switch_storyteller_app.disable()
+
+
+        # # start by disabling all
+        # self.promote_leader.disable()
+        # self.promote_deputy.disable()
+
+        # self.switch_warrior.disable()
+        # self.switch_med_cat.disable()
+        # self.switch_mediator.disable()
+        # self.switch_caretaker.disable()
+        # self.switch_messenger.disable()
+        # self.switch_denkeeper.disable()
+        # self.switch_gardener.disable()
+        # self.switch_storyteller.disable()
+        # self.retire.disable()
+        # self.kitmote.disable()
+
+        # self.switch_med_app.disable()
+        # self.switch_warrior_app.disable()
+        # self.switch_mediator_app.disable()
+        # self.switch_caretaker_app.disable()
+        # self.switch_messenger_app.disable()
+        # self.switch_denkeeper_app.disable()
+        # self.switch_gardener_app.disable()
+        # self.switch_storyteller_app.disable()
+
+        # # first check for training
+        # if (
+        #     self.the_cat.status.rank.is_any_apprentice_rank()
+        #     or self.the_cat.status.rank == CatRank.KITTEN
+        #     ):
+        #     # ENABLE ALL TRAININGS
+        #     self.switch_med_app.enable()
+        #     self.switch_warrior_app.enable()
+        #     self.switch_mediator_app.enable()
+        #     self.switch_caretaker_app.enable()
+        #     self.switch_messenger_app.enable()
+        #     self.switch_denkeeper_app.enable()
+        #     self.switch_gardener_app.enable()
+        #     self.switch_storyteller_app.enable()
+        #     #and also babymode
+        #     self.kitmote.enable()
+
+        #     if self.the_cat.status.rank == CatRank.APPRENTICE:
+        #         self.switch_warrior_app.disable()
+        #         self.switch_warrior.enable()
+        #     elif self.the_cat.status.rank == CatRank.MEDICINE_APPRENTICE:
+        #         self.switch_med_app.disable()
+        #         self.switch_med_cat.enable()
+        #     elif self.the_cat.status.rank == CatRank.MEDIATOR_APPRENTICE:
+        #         self.switch_mediator_app.disable()
+        #         self.switch_mediator.enable()
+        #     elif self.the_cat.status.rank == CatRank.CARETAKER_APPRENTICE:
+        #         self.switch_caretaker_app.disable()
+        #         self.switch_caretaker.enable()
+        #     elif self.the_cat.status.rank == CatRank.MESSENGER_APPRENTICE:
+        #         self.switch_messenger_app.disable()
+        #         self.switch_messenger.enable()
+        #     elif self.the_cat.status.rank == CatRank.DENKEEPER_APPRENTICE:
+        #         self.switch_denkeeper_app.disable()
+        #         self.switch_denkeeper.enable()
+        #     elif self.the_cat.status.rank == CatRank.GARDENER_APPRENTICE:
+        #         self.switch_gardener_app.disable()
+        #         self.switch_gardener.enable()
+        #     elif self.the_cat.status.rank == CatRank.STORYTELLER_APPRENTICE:
+        #         self.switch_storyteller_app.disable()
+        #         self.switch_storyteller.enable()
+        #     elif self.the_cat.status.rank == CatRank.KITTEN:
+        #         self.kitmote.disable()
+
+        # # now we check for leader/deputy eligible roles
+        # else:
+        #     if leader_invalid:
+        #         self.promote_leader.enable()
+
+        #     if deputy_invalid:
+        #         self.promote_deputy.enable()
+
+        #     if self.the_cat.status.rank == CatRank.ELDER:
+        #         self.switch_warrior.enable()
+        #         self.switch_med_cat.enable()
+        #         self.switch_mediator.enable()
+        #         self.switch_caretaker.enable()
+        #         self.switch_messenger.enable()
+        #         self.switch_denkeeper.enable()
+        #         self.switch_gardener.enable()
+        #         self.switch_storyteller.enable()
+        #         self.kitmote.disable()
+        #         self.retire.disable()
+        #     elif self.the_cat.status.rank == CatRank.WARRIOR:
+        #         self.switch_med_cat.enable()
+        #         self.switch_mediator.enable()
+        #         self.switch_caretaker.enable()
+        #         self.switch_messenger.enable()
+        #         self.switch_denkeeper.enable()
+        #         self.switch_gardener.enable()
+        #         self.switch_storyteller.enable()
+        #         self.retire.enable()
+        #         self.kitmote.disable()
+        #         self.switch_warrior.disable()
+        #         self.switch_warrior_app.enable()
+        #     elif self.the_cat.status.rank == CatRank.MEDIATOR:
+        #         self.switch_mediator.disable()
+        #         self.switch_mediator_app.enable()
+        #         self.switch_warrior.enable()
+        #         self.switch_med_cat.enable()
+        #         self.switch_caretaker.enable()
+        #         self.switch_messenger.enable()
+        #         self.switch_denkeeper.enable()
+        #         self.switch_gardener.enable()
+        #         self.switch_storyteller.enable()
+        #         self.retire.enable()
+        #         self.kitmote.disable()
+        #     elif self.the_cat.status.rank == CatRank.CARETAKER:
+        #         self.switch_caretaker.disable()
+        #         self.switch_caretaker_app.enable()
+        #         self.switch_warrior.enable()
+        #         self.switch_med_cat.enable()
+        #         self.switch_mediator.enable()
+        #         self.switch_messenger.enable()
+        #         self.switch_denkeeper.enable()
+        #         self.switch_gardener.enable()
+        #         self.switch_storyteller.enable()
+        #         self.retire.enable()
+        #         self.kitmote.disable()
+        #     elif self.the_cat.status.rank == CatRank.MEDICINE_CAT:
+        #         self.switch_caretaker.enable()
+        #         self.switch_warrior.enable()
+        #         self.switch_med_cat.disable()
+        #         self.switch_med_app.enable()
+        #         self.switch_mediator.enable()
+        #         self.switch_messenger.enable()
+        #         self.switch_denkeeper.enable()
+        #         self.switch_gardener.enable()
+        #         self.switch_storyteller.enable()
+        #         self.retire.enable()
+        #         self.kitmote.disable()
+        #     elif self.the_cat.status.rank == CatRank.MESSENGER:
+        #         self.switch_messenger.disable()
+        #         self.switch_messenger_app.enable()
+        #         self.switch_warrior.enable()
+        #         self.switch_med_cat.enable()
+        #         self.switch_mediator.enable()
+        #         self.switch_caretaker.enable()
+        #         self.switch_denkeeper.enable()
+        #         self.switch_gardener.enable()
+        #         self.switch_storyteller.enable()
+        #         self.retire.enable()
+        #         self.kitmote.disable()
+        #     elif self.the_cat.status.rank == CatRank.DENKEEPER:
+        #         self.switch_denkeeper.disable()
+        #         self.switch_denkeeper_app.enable()
+        #         self.switch_warrior.enable()
+        #         self.switch_med_cat.enable()
+        #         self.switch_mediator.enable()
+        #         self.switch_caretaker.enable()
+        #         self.switch_messenger.enable()
+        #         self.switch_gardener.enable()
+        #         self.switch_storyteller.enable()
+        #         self.retire.enable()
+        #         self.kitmote.disable()
+        #     elif self.the_cat.status.rank == CatRank.STORYTELLER:
+        #         self.switch_storyteller.disable()
+        #         self.switch_storyteller_app.enable()
+        #         self.switch_warrior.enable()
+        #         self.switch_med_cat.enable()
+        #         self.switch_mediator.enable()
+        #         self.switch_caretaker.enable()
+        #         self.switch_messenger.enable()
+        #         self.switch_denkeeper.enable()
+        #         self.switch_gardener.enable()
+        #         self.retire.enable()
+        #         self.kitmote.disable()
+        #     elif self.the_cat.status.rank == CatRank.GARDENER:
+        #         self.switch_gardener.disable()
+        #         self.switch_gardener_app.enable()
+        #         self.switch_warrior.enable()
+        #         self.switch_med_cat.enable()
+        #         self.switch_mediator.enable()
+        #         self.switch_caretaker.enable()
+        #         self.switch_messenger.enable()
+        #         self.switch_denkeeper.enable()
+        #         self.switch_storyteller.enable()
+        #         self.retire.enable()
+        #         self.kitmote.disable()
 
     def get_role_blurb(self):
         # rip old status code you made this so much easier

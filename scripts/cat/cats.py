@@ -1144,12 +1144,12 @@ class Cat:
         # translate it if it's default
         warriorGender=game_setting_get("warriorified gender")
         if (
-            # warriorGender is True and 
+            warriorGender is True and 
             gender in ["male","female","trans male","trans female","trans masculine","trans feminine","intersex","intergender","ultergender","ipsogender","nonbinary","genderfluid","genderdoe","genderfaun","genderflux", "transneutral","agender","genderqueer","bigender","pangender","multigender","cusper","evenic","isogender","gendervoid","xenogender","cassgender","demigender"]
             ):
             return i18n.t(f"general.genderCatify.{gender}")
-        # elif warriorGender is False:
-            # return i18n.t(f"general.genderClassic.{gender}")
+        elif warriorGender is False:
+            return i18n.t(f"general.genderClassic.{gender}")
         # otherwise, it's custom - just return it directly
         # else:
         return gender
@@ -2417,8 +2417,8 @@ class Cat:
             "gender": "",
             "personality": "",
             "role": "host",
-            "other": "core",
-            "origin": "core",
+            "other": "main",
+            "origin": "trauma",
             "splits": []
         }
         if game.clan:
@@ -2443,7 +2443,7 @@ class Cat:
             "personality": "",
             "role": "",
             "other": "cat",
-            "origin": "core",
+            "origin": "",
             "splits": []
         }
         adult_canon = [
@@ -2787,7 +2787,7 @@ class Cat:
             if splitrng < (len(self.alters) + 1):
                 template["origin"] = self.alters[(splitrng - 1)]['name']
                 self.add_split((splitrng - 1), template["name"])
-        if template["origin"] == "core":
+        if template["origin"] == "trauma":
             self.add_split(0, template["name"])
         self.alters.append(template)
 
@@ -3512,7 +3512,7 @@ class Cat:
         if self.alters:
             for alter in self.alters:
                 if "origin" not in alter:
-                    alter["origin"] = "core"
+                    alter["origin"] = "trauma"
                     alter["splits"] = []
                 if "personality" not in alter:
                     alter["personality"] = choice(self.all_adult_personalities)
@@ -3804,7 +3804,7 @@ class Cat:
 
         # There are some special tasks we need to do for apprentice
         # Note that although you can un-retire cats, they will be a full warrior/med_cat/mediator
-        if self.moons > 6 and self.status.rank.is_any_apprentice_rank():
+        if self.moons > 3 and self.status.rank.is_any_apprentice_rank():
             _ment = Cat.fetch_cat(self.mentor) if self.mentor else None
             self.rank_change(
                 CatRank.WARRIOR
@@ -4042,7 +4042,7 @@ class Cat:
             return
         if self.ID in mentor_cat.apprentice:
             mentor_cat.apprentice.remove(self.ID)
-        if self.moons > 6:
+        if self.moons > 3:
             if self.ID not in mentor_cat.former_apprentices:
                 mentor_cat.former_apprentices.append(self.ID)
             if mentor_cat.ID not in self.former_mentor:
