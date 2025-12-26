@@ -938,6 +938,23 @@ class ProfileScreen(Screens):
         # NEWLINE ----------
         output += "\n"
 
+        # PRONOUNS
+        pronoun_text = ""
+        if len(the_cat.pronouns) == 1:
+            if the_cat.pronouns[0].get("subject") == the_cat.pronouns[0].get("object"):
+                pronoun_text += the_cat.pronouns[0].get("subject") + "/" + the_cat.pronouns[0].get("poss")
+            else:
+                pronoun_text += the_cat.pronouns[0].get("subject") + "/" + the_cat.pronouns[0].get("object")
+        else:
+            for pronoun in the_cat.pronouns:
+                pronoun_text += pronoun.get("subject") + "/"
+            if pronoun_text[-1] == "/":
+                pronoun_text = pronoun_text[:-1]
+        output += pronoun_text
+
+        # NEWLINE ----------
+        output += "\n"
+
         # AGE
         if the_cat.age == CatAge.KITTEN:
             output += i18n.t("general.kitten_profile")
@@ -962,15 +979,13 @@ class ProfileScreen(Screens):
         if simpleprofile is True:
             SPoutput = ""
         elif simpleprofile is False:
-            skin = "skin: " + str(the_cat.describe_skin())
-            pelt = "pelt: " + the_cat.pelt.name.lower()
-            length = "fur length: " + the_cat.pelt.length
-            texture = "fur texture: " + the_cat.pelt.fur_texture
-            height = "height: " + the_cat.pelt.height
-            build = "build: " + the_cat.pelt.build
-            length = "fur length: " + self.the_cat.pelt.length
+            skin = "skin: " + str(the_cat.describe_skin())+ newline
+            pelt = "pelt: " + the_cat.pelt.colour.lower() + " " + the_cat.pelt.name.lower() + newline
+            fur = "fur: " + the_cat.pelt.length + the_cat.pelt.fur_texture + newline
+            height = "height: " + the_cat.pelt.height + newline
+            build = "build: " + the_cat.pelt.build + newline
 
-            SPoutput = skin + newline + pelt + newline + length + newline + texture + newline + height + newline + build + newline + length
+            SPoutput = skin + pelt + fur + height + build
         
             output += "\n"
             output += SPoutput
@@ -1063,7 +1078,7 @@ class ProfileScreen(Screens):
             output += "\n"
 
             bestie_names = []
-            # Grab the names of only the first two, since that's all we will display
+            # Grab the names of only the first, since that's all we will display
             for _b in the_cat.bestie[:1]:
                 bestie_ob = Cat.fetch_cat(_b)
                 if not isinstance(bestie_ob, Cat):
@@ -1101,7 +1116,7 @@ class ProfileScreen(Screens):
             output += "\n"
 
             enemy_names = []
-            # Grab the names of only the first two, since that's all we will display
+            # Grab the names of only the first, since that's all we will display
             for _b in the_cat.enemy[:2]:
                 enemy_ob = Cat.fetch_cat(_b)
                 if not isinstance(enemy_ob, Cat):
@@ -1219,23 +1234,32 @@ class ProfileScreen(Screens):
         # NEWLINE ----------
         output += "\n"
 
-        # PRONOUNS
-        pronoun_text = ""
-        if len(the_cat.pronouns) == 1:
-            if the_cat.pronouns[0].get("subject") == the_cat.pronouns[0].get("object"):
-                pronoun_text += the_cat.pronouns[0].get("subject") + "/" + the_cat.pronouns[0].get("poss")
+        # plurallll -------
+        if the_cat.is_plural():
+            con = ""
+            if "shattered soul" in the_cat.permanent_condition:
+                con = "shattered soul"
+            elif "budding spirit" in the_cat.permanent_condition:
+                con = "budding spirit"
+            elif "fractured spirit"in the_cat.permanent_condition:
+                con = "fractured spirit"
+            if self.the_cat.permanent_condition[con]["born_with"] is True:
+                minmoons = -1
             else:
-                pronoun_text += the_cat.pronouns[0].get("subject") + "/" + the_cat.pronouns[0].get("object")
-        else:
-            for pronoun in the_cat.pronouns:
-                pronoun_text += pronoun.get("subject") + "/"
-            if pronoun_text[-1] == "/":
-                pronoun_text = pronoun_text[:-1]
-        output += pronoun_text
-
-        # NEWLINE ----------
-        output += "\n"
-
+                minmoons = 0
+            if self.the_cat.permanent_condition[con]["moons_until"] <= minmoons:
+                output += "fronting: "
+                if self.the_cat.front is not None:
+                    output += the_cat.front
+                else:
+                    output += str(the_cat.name)
+                """
+                can_front = [str(the_cat.name)]
+                for alter in the_cat.alters:
+                    can_front.append(alter["name"])
+                output += choice(can_front)
+                """
+                output += "\n"
         # SEXUALITY
         if get_clan_setting("gendered attraction") is True:
             if len(the_cat.sexuality["gender"]) > 0:
@@ -1407,31 +1431,6 @@ class ProfileScreen(Screens):
                 output += "\n"
                 break
             
-        if the_cat.is_plural():
-            con = ""
-            if "shattered soul" in the_cat.permanent_condition:
-                con = "shattered soul"
-            elif "budding spirit" in the_cat.permanent_condition:
-                con = "budding spirit"
-            elif "fractured spirit"in the_cat.permanent_condition:
-                con = "fractured spirit"
-            if self.the_cat.permanent_condition[con]["born_with"] is True:
-                minmoons = -1
-            else:
-                minmoons = 0
-            if self.the_cat.permanent_condition[con]["moons_until"] <= minmoons:
-                output += "fronting: "
-                if self.the_cat.front is not None:
-                    output += the_cat.front
-                else:
-                    output += str(the_cat.name)
-                """
-                can_front = [str(the_cat.name)]
-                for alter in the_cat.alters:
-                    can_front.append(alter["name"])
-                output += choice(can_front)
-                """
-                output += "\n"
 
         if the_cat.is_injured():
             if "recovering from birth" in the_cat.injuries:
@@ -1650,7 +1649,7 @@ class ProfileScreen(Screens):
     def build_debug_info(self):
         #everybody say thank u genemod for the inspo i love u genemod
         self.debuginfo = ""
-        simpleprofile = game_setting_get("less cat info")
+        simpleprofile = game_setting_get("less info")
         sexuality = Cat.display_gendered_attraction(self.the_cat.sexuality["gender"])
         newline = "\n"
         blank = " "
@@ -1662,31 +1661,28 @@ class ProfileScreen(Screens):
         self.debuginfo += f"{sexuality}" + newline
 
         # profile condenser
-        if simpleprofile:
-            # physique
-            self.debuginfo += newline + "physique" + newline
+        if simpleprofile is True:
+            self.debuginfo += ""
 
-            # if self.the_cat.pelt.scars:
-            #     self.debuginfo += f"scars: " + self.the_cat.pelt.scars + newline
-
-            self.debuginfo += "skin: " + self.the_cat.describe_skin() + f" ({self.the_cat.pelt.skin.lower()})"+ newline
-            self.debuginfo += "pelt: " + self.the_cat.pelt.name.lower() + f" {self.the_cat.pelt.colour.lower()}" + newline
+        elif simpleprofile is False:
+            # other debugs
+            skill = self.the_cat.skills
+            phystitle = newline + "physique" + newline
+            skin=  "skin: " + self.the_cat.describe_skin() + f" ({self.the_cat.pelt.skin.lower()})"+ newline
+            pelt= "pelt: " + self.the_cat.pelt.name.lower() + f" {self.the_cat.pelt.colour.lower()}" + newline
             if self.the_cat.pelt.tortiebase is not None:
-                self.debuginfo += ("tortie: " + 
-                                self.the_cat.pelt.tortiebase.lower() + blank +
-                                self.the_cat.pelt.tortiecolour.lower() + blank +
-                                self.the_cat.pelt.tortiepattern.lower() + blank +
-                                newline + newline
-                )
-            # self.debuginfo += "fur length: " + self.the_cat.pelt.length + newline
-            self.debuginfo += "fur texture: " + self.the_cat.pelt.fur_texture + newline + newline
-            self.debuginfo += "height: " + self.the_cat.pelt.height + newline
-            self.debuginfo += "build: " + self.the_cat.pelt.build + newline
+                tortie= ("tortie: " + self.the_cat.pelt.tortiebase.lower() + blank +self.the_cat.pelt.tortiecolour.lower() + blank +self.the_cat.pelt.tortiepattern.lower() + blank +newline + newline)
+            else:
+                tortie=""
+            fur = "fur: " + self.the_cat.pelt.length + self.the_cat.pelt.fur_texture + " fur" + newline + newline
+            # length= "fur length: " + self.the_cat.pelt.length + newline
+            # texture= "fur texture: " + self.the_cat.pelt.fur_texture + newline + newline
+            height= "height: " + self.the_cat.pelt.height + newline
+            build= "build: " + self.the_cat.pelt.build + newline
 
             # TRAITS
             trait_descriptions = {'TEETHUPPER': 'long upper fangs', 'TEETHSABRE': 'sabre teeth', 'TEETHUNDERBITE': 'underbite', 'TEETHOVERBITE': 'overbite', 'TEETHHANG': 'a hanging fang', 'TEETHJAGGED': 'uneven teeth', 'TEETHTUSK': 'tusked fangs', 'TEETHGONE': 'missing a tooth', 'TEETHCHIPPED': 'a chipped tooth', 'EARSMALL': 'small ears', 'EARBIG': 'big ears', 'EARTALL': 'tall ears', 'EARPANTHER': 'rounded ears', 'EARWIDE': 'wide-set ears', 'EARFLUFFY': 'fluffy ears', 'FOLDBOTH': 'folded ears', 'FOLDONE': 'one folded ear', 'EARCURL': 'curled ears', 'EARDROOPY': 'droopy ears', 'EARRABBIT': 'rabbit-like ears', 'HEADFORELOCK': 'forelock', 'HEADCOWLICK': 'cowlick', 'HEADMOHAWK': 'mohawk', 'HEADTUFT': 'tufted head fur', 'HEADEMO': 'emo-style head fur', 'HEADJOWLS': 'prominent jowls', 'CHEEKLONG': 'long cheek fur', 'CHEEKPOINTED': 'pointed cheek fur', 'CHEEKFLUFF': 'fluffy cheeks', 'CHEEKCURL': 'curled cheek fur', 'MANESILKY': 'silky mane', 'MANEFLUFFY': 'fluffy mane', 'MANERUFF': 'ruff', 'MANEHORSE': 'horse-like mane', 'MANELION': 'lion-like mane', 'MANEBRAIDED': 'braided mane', 'MANECOBRA': 'cobra-like mane', 'FURWAVY': 'wavy fur', 'FURCURLY': 'curly fur', 'FURPATCHY': 'patchy fur', 'FURKINK': 'kinked fur', 'FURSHAGGY': 'shaggy fur', 'MUZZLESHORT': 'short muzzle', 'MUZZLEBROAD': 'broad muzzle', 'MUZZLELONG': 'long muzzle', 'BODYBROAD': 'broad shoulders', 'BODYWIRY': 'wiry', 'BODYLITHE': 'lithe', 'BODYSKINNY': 'skinny', 'BODYBUFF': 'muscular', 'BODYCOMPACT': 'compact', 'BODYHUNCHED': 'hunched', 'BODYHEFTY': 'hefty', 'BODYBURLY': 'burly', 'BODYBULKY': 'bulky', 'BODYPLUMP': 'plump', 'BODYBRAWNY': 'brawny', 'BODYSTOUT': 'stout', 'BODYBROAD': 'broad', 'BODYCHUBBY': 'chubby', 'BODYFAT': 'fat', 'BODYSTOCKY': 'stocky', 'BODYCHUNKY': 'chunky', 'BODYBIGBONED': 'big-boned', 'SIZETINY': 'tiny', 'SIZESMALL': 'small', 'SIZESHORT': 'short', 'SIZETALL': 'tall', 'SIZELARGE': 'large', 'SIZEHUGE': 'huge', 'EARTUFTS': 'ear tufts', 'POLYDACTYL': 'polydactyl', 'LASHESUPPER': 'upper lashes', 'LASHESLOWER': 'lower lashes', 'WHISKERSLONG': 'long whiskers', 'TAILCROOKED': 'crooked tail', 'TAILLONG': 'long tail', 'TAILFEATHER': 'feathered tail', 'TAILCURL': 'curled tail', 'TAILTUFT': 'tufted tail', 'TAILFORKED': 'forked tail', 'CLAWSLONG': 'unusually long claws', 'TAILFOX': 'fox-like tail', 'BACKFLUFF': 'fluffy back', 'BACKRIDGE': 'fur ridge on back', 'SHOULDERTUFT': 'tufted shoulders', 'LEGTUFT': 'tufted legs', 'LARGEPAWS': 'large paws', 'SMALLPAWS': 'small paws', 'CLAWLESS': 'clawless', 'CLAWSSHORT': 'unusually short claws', 'PAWTUFT': 'tufted paws', 'BIGEYES': 'big eyes', 'SMALLEYES': 'small eyes', 'BIGNOSE': 'big nose', 'HEARTSHAPEDNOSE': 'heart-shaped nose', 'LONGLEGS': 'long-legged', 'SHORTLEGS': 'short-legged', 'CROSSEYED': 'cross-eyed', 'LAZYEYE': 'lazy eye', 'OVERGROWNTONGUE': 'overgrown tongue', 'LONGCHINFUR': 'long chin fur', 'SHORTCHINFUR': 'short chin fur', 'LONGMUZZLEFUR': 'long muzzle fur', 'LONGINNEREARFUR': 'long inner ear fur', 'WEBBEDPAWS': 'webbed paws', 'MISSINGTOE': 'missing a toe', 'UNDERSIZEDJAW': 'undersized jaw', 'OVERSIZED JAW': 'oversized jaw', 'HEADMULLET': 'mullet', 'FURBARBELS': 'fur barbels'
             }
-
             trait_list = []
             if self.the_cat.pelt.physical_trait_1:
                 trait_list.append(self.the_cat.pelt.physical_trait_1)
@@ -1696,18 +1692,18 @@ class ProfileScreen(Screens):
                         trait_list.append(self.the_cat.pelt.physical_trait_3)
                         if self.the_cat.pelt.physical_trait_4:
                             trait_list.append(self.the_cat.pelt.physical_trait_4)
-
             if trait_list:
-                self.debuginfo += "\n"
-                self.debuginfo += "traits: "
-                for trait in trait_list:
-                    if trait in trait_descriptions:
-                        self.debuginfo += trait_descriptions[trait] + ", "
+                # trait= "\n"
+                gen_trait= "traits: "
+                for gen_trait in trait_list:
+                    if gen_trait in trait_descriptions:
+                        self.debuginfo += trait_descriptions[gen_trait] + ", "
                     else:
-                        self.debuginfo += trait + ", "  # In case the trait is not found in the dictionary
+                        self.debuginfo += gen_trait + ", "  # In case the trait is not found in the dictionary
                 self.debuginfo = self.debuginfo.rstrip(", ")  # Remove the trailing comma and space
-        else: 
-            self.debuginfo = blank
+
+            spDebug = skill + phystitle + skin + pelt + tortie + fur + height + build + gen_trait
+            self.debuginfo += spDebug
         
         
     def toggle_extra_tab(self):
