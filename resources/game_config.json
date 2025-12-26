@@ -21,10 +21,10 @@
 		]
 	},
 	"mates":{
-		"age_range": 40,
-		"override_same_age_group": false,
+		"age_range": 400,
+		"override_same_age_group": true,
 		"chance_fulfilled_condition": 5,
-		"chance_friends_to_lovers": 170,
+		"chance_friends_to_lovers": 70,
 		"confession": {
 			"make_confession" : {
 				"romantic": 30,
@@ -168,18 +168,18 @@
 		"primary_chance_unmated": 130,
 		"random_affair_chance": 50,
 		"unmated_random_affair_chance": 10,
-		"one_kit_possibility": {"young adult": 28, "adult": 24, "senior adult": 17, "senior": 15},
-		"two_kit_possibility": {"young adult": 32, "adult": 28, "senior adult": 10, "senior": 10},
-		"three_kit_possibility": {"young adult": 36, "adult": 32, "senior adult": 5, "senior": 3},
-		"four_kit_possibility": {"young adult": 32, "adult": 28, "senior adult": 4, "senior": 2},
-		"five_kit_possibility": {"young adult": 28, "adult": 24, "senior adult": 3, "senior": 1},
-		"six_kit_possibility": {"young adult": 24, "adult": 20, "senior adult": 2, "senior": 0},
-		"seven_kit_possibility": {"young adult": 8, "adult": 6, "senior adult": 0, "senior": 0},
-		"eight_kit_possibility": {"young adult": 4, "adult": 2, "senior adult": 0, "senior": 0},
-		"nine_kit_possibility": {"young adult": 2, "adult": 1, "senior adult": 0, "senior": 0},
-		"ten_kit_possibility": {"young adult": 1, "adult": 0, "senior adult": 0, "senior": 0},
-		"eleven_kit_possibility": {"young adult": 1, "adult": 0, "senior adult": 0, "senior": 0},
-		"max_kit_possibility": {"young adult": 1, "adult": 1, "senior adult": 0, "senior": 0},
+		"one_kit_possibility": {"kitten":1,"adolescent":28,"young adult": 28, "adult": 24, "senior adult": 17, "senior": 15},
+		"two_kit_possibility": {"kitten":1,"adolescent":28,"young adult": 32, "adult": 28, "senior adult": 10, "senior": 10},
+		"three_kit_possibility": {"kitten":1,"adolescent":28,"young adult": 36, "adult": 32, "senior adult": 5, "senior": 3},
+		"four_kit_possibility": {"kitten":1,"adolescent":28,"young adult": 32, "adult": 28, "senior adult": 4, "senior": 2},
+		"five_kit_possibility": {"kitten":1,"adolescent":28,"young adult": 28, "adult": 24, "senior adult": 3, "senior": 1},
+		"six_kit_possibility": {"kitten":1,"adolescent":28,"young adult": 24, "adult": 20, "senior adult": 2, "senior": 0},
+		"seven_kit_possibility": {"kitten":1,"adolescent":8,"young adult": 8, "adult": 6, "senior adult": 0, "senior": 0},
+		"eight_kit_possibility": {"kitten":0,"adolescent":4,"young adult": 4, "adult": 2, "senior adult": 0, "senior": 0},
+		"nine_kit_possibility": {"kitten":0,"adolescent":2,"young adult": 2, "adult": 1, "senior adult": 0, "senior": 0},
+		"ten_kit_possibility": {"kitten":0,"adolescent":1,"young adult": 1, "adult": 0, "senior adult": 0, "senior": 0},
+		"eleven_kit_possibility": {"kitten":0,"adolescent":1,"young adult": 1, "adult": 0, "senior adult": 0, "senior": 0},
+		"max_kit_possibility": {"kitten":0,"adolescent":1,"young adult": 1, "adult": 1, "senior adult": 0, "senior": 0},
 		"min_kits": 1,
 		"max_kits": 6,
 		"failed_adopt": {"intersex": 0.10, "female": 0.05, "male": 0.15},
@@ -251,12 +251,12 @@
 		"skill_acc_modifier": -20
 	},
 	"transition_related": {
-		"base_trans_chance": 256,
+		"base_trans_chance": 50,
 		"adolescent_modifier": -128,
 		"older_modifier": 256
 	},
 	"fading": {
-		"age_to_fade": 202,
+		"age_to_fade": 50,
 		"opacity_at_fade": 20,
 		"visual_fading_speed": 5
 	},
@@ -292,13 +292,13 @@
 			"warrior": 5000,
 			"elder": 400
 		},
-		"disabled_cat_med_chance_increase": 2,
+		"disabled_cat_med_chance_increase": 1.5,
 		"comment": [
 			"The disabled_cat_med_chance_increase (2 by default) will divide the chance of disabled cats becoming medicine cat/mediator apprentices by its value."
 		]
 	},
 	"lost_cat": {
-		"rejoin_chance": 20
+		"rejoin_chance": 10
 	},
 	"cat_ages": {
 		"newborn": [0, 0],
@@ -338,7 +338,7 @@
 		"debug_ensure_event_id": null,
 		"debug_type_override": null,
 		"debug_override_requirements": false,
-		"max_illnesses": 3,
+		"max_illnesses": 5,
 		"max_perm_conditions": -1,
 		"comment": [
 			"if randint(1, df_trainee_injury_event_denominator) <= df_trainee_injury_event_compare - base is 15% chance",
@@ -355,8 +355,8 @@
 		"cruel season_death_chance": 300,
 		"war_death_modifier_leader": 95,
 		"war_death_modifier": 250,
-		"base_random_murder_chance": 25,
-		"base_murder_kill_chance": 80,
+		"base_random_murder_chance": 20,
+		"base_murder_kill_chance": 50,
 		"old_age_death_start": 150,
 		"old_age_death_curve": 4.5,
 		"comment": [
@@ -375,8 +375,8 @@
 		"permanent_condition_chance": 15,
 		"war_injury_modifier": 100,
 		"max_alters": 20,
-		"max_splits": 3,
-		"plural_names": 100
+		"max_splits": 1,
+		"plural_names": 25
 	},
 	"clan_creation": {
 		"rerolls": -1,
@@ -386,16 +386,16 @@
 		"base_app_timeskip_ex": [[3, 12],[5, 6]],
 		"base_med_app_timeskip_ex": [[2, 7],[2, 3]],
 		"max_apprentice_age": {
-			"medicine cat apprentice": 30,
-			"apprentice": 25,
-			"mediator apprentice": 25,
-			"messenger apprentice": 25,
-			"caretaker apprentice": 25,
-			"denkeeper apprentice": 25,
-			"gardener apprentice": 25,
-			"storyteller apprentice": 25
+			"medicine cat apprentice": 20,
+			"apprentice": 15,
+			"mediator apprentice": 15,
+			"messenger apprentice": 15,
+			"caretaker apprentice": 15,
+			"denkeeper apprentice": 15,
+			"gardener apprentice": 15,
+			"storyteller apprentice": 15
 		},
-		"min_graduating_age": 10
+		"min_graduating_age": 6
 	},
 	"outside_ex":{
 		"base_adolescent_timeskip_ex":[[2, 10],[4, 5]],
@@ -403,7 +403,7 @@
 		"base_senior_timeskip_ex":[[3, 9],[3, 4]]
 	},
     "focus":{
-        "duration": 3,
+        "duration": 1,
         "hunting":{
             "warrior": 2,
             "apprentice": 1,
@@ -418,8 +418,8 @@
             "comment": "Defines how much increase or decrease the relation with other clans is."
         },
         "raid other clans" : {
-            "prey_warrior": 3,
-            "herb_medicine": 4,
+            "prey_warrior": 5,
+            "herb_medicine": 5,
             "injury_chance_warrior": 18,
             "injury_chance_medicine cat": 33,
             "chance_increase_per_clan": 3,
@@ -447,8 +447,8 @@
             ]
         },
         "hoarding" : {
-            "prey_warrior": 1,
-            "herb_medicine": 2,
+            "prey_warrior": 3,
+            "herb_medicine": 3,
             "injury_chance_warrior": 25,
             "injury_chance_medicine cat": 35,
             "injuries": {
@@ -511,7 +511,7 @@
 		"all_cats_are_newborn": false,
 		"newborns_can_roam": false,
 		"newborns_can_patrol": false,
-		"always_halloween": false
+		"always_halloween": true
 	},
 	"theme": {
 		"dark_mode_background": [57, 50, 36],
@@ -588,6 +588,6 @@
 			}
 		}
 	},
-	"dev_tools": false,
+	"dev_tools": true,
 	"check_and_convert": true
 }

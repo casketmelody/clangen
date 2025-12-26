@@ -88,10 +88,10 @@ class CatRank(StrEnum):
             self.ELDER,
             self.KITTEN,
             self.NEWBORN,
-            self.MEDIATOR,
-            self.MEDIATOR_APPRENTICE,
-            self.STORYTELLER,
-            self.STORYTELLER_APPRENTICE
+            # self.MEDIATOR,
+            # self.MEDIATOR_APPRENTICE,
+            # self.STORYTELLER,
+            # self.STORYTELLER_APPRENTICE
         ):
             return True
         return False

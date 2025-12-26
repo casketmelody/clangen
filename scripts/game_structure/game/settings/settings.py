@@ -88,8 +88,8 @@ _ = [_settings["general"],_settings["triggers"]]
 
 for cat in _:  # Add all the settings to the settings dictionary
     for setting_name, inf in cat.items():
-        settings[setting_name] = inf[2]
-        setting_lists[setting_name] = [inf[2], not inf[2]]
+        settings[setting_name] = inf[1]
+        setting_lists[setting_name] = [inf[1], not inf[1]]
 del _settings, setting_name, _
 
 game_settings_load()

@@ -809,7 +809,7 @@ class ChooseMateScreen(Screens):
         ) = self.the_cat.determine_next_and_previous_cats(
             filter_func=(
                 lambda cat: cat.age
-                in ("young adult", "adult", "senior adult", "senior")
+                in ("adolescent","young adult", "adult", "senior adult", "senior")
             )
         )
         (

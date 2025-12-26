@@ -26,6 +26,7 @@ from .PatrolScreen import PatrolScreen
 from .ProfileScreen import ProfileScreen
 from .RelationshipScreen import RelationshipScreen
 from .RoleScreen import RoleScreen
+from .DebugScreen import DebugScreen
 from .Screens import Screens
 from .SettingsScreen import SettingsScreen
 from .SpriteInspectScreen import SpriteInspectScreen
@@ -61,6 +62,7 @@ class AllScreens:
     profile_screen = ProfileScreen("profile screen")
     ceremony_screen = CeremonyScreen("ceremony screen")
     role_screen = RoleScreen("role screen")
+    debug_screen = DebugScreen("debug screen")
     customize_cat_screen = CustomizeCatScreen("customize cat screen")
     customize_stats_screen = CustomizeStatsScreen("customize stats screen")
     sprite_inspect_screen = SpriteInspectScreen("sprite inspect screen")
@@ -108,6 +110,7 @@ class AllScreens:
         cls.profile_screen = ProfileScreen("profile screen")
         cls.ceremony_screen = CeremonyScreen("ceremony screen")
         cls.role_screen = RoleScreen("role screen")
+        cls.debug_screen = DebugScreen("debug screen")
         cls.customize_cat_screen = CustomizeCatScreen("customize cat screen")
         cls.customize_stats_screen = CustomizeStatsScreen("customize stats screen")
         cls.sprite_inspect_screen = SpriteInspectScreen("sprite inspect screen")

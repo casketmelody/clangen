@@ -918,9 +918,8 @@ class ChooseAdoptiveParentScreen(Screens):
             == self.the_cat.status.group  # Adoptive parents must be part of the same group
             and inter_cat.ID != self.the_cat.ID  # Can't be your own adoptive parent
             and inter_cat.moons - self.the_cat.moons
-            >= 14  # Adoptive parent must be at least 14 moons older. -> own child can't adopt you
-            and inter_cat.ID
-            not in self.the_cat.mate  # Can't set your mate your adoptive parent.
+            >= 1  # Adoptive parent must be at least 14 moons older. -> own child can't adopt you
+            # and inter_cat.ID not in self.the_cat.mate  # Can't set your mate your adoptive parent.
             and inter_cat.ID
             not in self.the_cat.get_parents()  # Adoptive parents can't already be their parent
             and self.not_related_to_mate(

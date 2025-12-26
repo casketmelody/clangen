@@ -116,6 +116,9 @@ class ChangeGenderScreen(Screens):
                         game.clan.custom_pronouns[i18n.config.get("locale")].remove(
                             event.ui_element.cat_object
                         )
+            elif event.ui_element == self.addall:
+                if event.ui_element.cat_object not in self.the_cat.pronouns:
+                    self.the_cat.pronouns.append(event.ui_element.cat_object)
 
                 self.update_selected_cat()
 
@@ -162,6 +165,7 @@ class ChangeGenderScreen(Screens):
             starting_height=5,
             anchors={"left": "left", "left_target": self.current_container},
         )
+        
 
         self.update_selected_cat()
         self.set_cat_location_bg(self.the_cat)
@@ -281,6 +285,15 @@ class ChangeGenderScreen(Screens):
             "buttons.save",
             get_button_dict(ButtonStyles.SQUOVAL, (73, 30)),
             object_id="@buttonstyles_squoval",
+            starting_height=2,
+            manager=MANAGER,
+        )
+        self.addall = UISurfaceImageButton(
+            ui_scale(pygame.Rect((532, 0), (73, 30))),
+            "any prns",
+            get_button_dict(ButtonStyles.SQUOVAL, (73, 30)),
+            object_id="@buttonstyles_squoval",
+            anchors={"top_target": self.buttons["save"]},
             starting_height=2,
             manager=MANAGER,
         )
@@ -559,6 +572,7 @@ class ChangeGenderScreen(Screens):
             self.deletebuttons[ele].kill()
         for ele in self.addbuttons:
             self.addbuttons[ele].kill()
+        
 
         self.selected_cat_elements = {}
         self.removalboxes_text = {}

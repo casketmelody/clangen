@@ -1,0 +1,11 @@
+{
+    "allLikers":{
+        "multi":{},
+        "girlLiker":{},
+        "boyLiker":{},
+        "neuLiker":{},
+        "noneLiker":{},
+        "miscLiker":{}
+    }
+}
+

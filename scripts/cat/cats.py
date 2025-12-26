@@ -60,7 +60,6 @@ import scripts.game_structure.screen_settings
 if TYPE_CHECKING:
     import pygame
 
-
 class Cat:
     """The cat class."""
 
@@ -201,19 +200,15 @@ class Cat:
         "zoomy", "clingy", "curious", "slug", "defiant", "sinister", "prim", "tender", "jokester", "wild", "bright",
         "earnest", "rowdy", "sloppy", "complex", "emotional", "protective", "bossy", "bright"
     ]
+    
+    fem_attraction = ["female", "trans female", "demigirl", "genderdoe","trans feminine","honeybee transfem","azurgirl"]
+        # choice(genderqueer_dicts["BC-fem"])
+    
+    masc_attraction = ["male", "trans male", "demiboy", "genderfaun","trans masculine","coffeebean transmasc","rosboy"]
+        # choice(genderqueer_dicts["BC-masc"])
 
-    fem_attraction = [
-        "female", "trans female", "demigirl", "genderfae"
-    ]
-
-    masc_attraction = [
-        "male", "trans male", "demiboy", "genderfaun"
-    ]
-
-    neu_other_attraction = [
-        "intersex", "intergender", "nonbinary", "genderfluid", "bigender", "genderqueer", "agender", "???", "deminonbinary", "trigender",
-        "genderflux", "polygender"
-    ]
+    neu_other_attraction = ["nonbinary","intersex","intergender","ultergender","ipsogender""genderfluid","genderflux","transneutral","agender","genderqueer","bigender","pangender","multigender","butch","femme","cusper","evenic","isogender","gendervoid","xenogender","cassgender","demigender"]
+        # choice(genderqueer_dicts["BC-neu"])
 
     with open("resources/dicts/custom_genders.json", "r", encoding="utf-8") as read_file:
         custom_genders = ujson.loads(read_file.read())
@@ -226,6 +221,7 @@ class Cat:
             neu_other_attraction.append(gender["name"])
 
     gender_tags = {"female": "F", "male": "M", "intersex": "I"}
+
 
     # EX levels and ranges.
     # Ranges are inclusive to both bounds
@@ -711,11 +707,23 @@ class Cat:
         :param skill_dict: TODO what is a skill dict exactly
         :return: None
         """
+            # if os.path.exists('resources/dicts/genders.json'):
+            #         with open('resources/dicts/genders.json') as read_file:
+            #             genderqueer_dicts = ujson.loads(read_file.read())
         # trans cat chances
-        nonbiney_list = ["nonbinary", "genderfluid", "demigirl", "demiboy", "genderfae", "genderfaun", "bigender",
-                         "genderqueer", "agender", "???", "deminonbinary", "trigender", "genderflux", "polygender"]
-        enby_masc = ["trans male", "demiboy", "genderfaun", "trans masc"]
-        enby_fem = ["trans female", "demigirl", "genderfae", "trans femme"]
+        nonbiney_list = ["intergender","ultergender","ipsogender","nonbinary","genderfluid","genderdoe","genderfaun","genderflux", "transneutral","agender","genderqueer","bigender","pangender","multigender","cusper","evenic","isogender","gendervoid","xenogender","cassgender","demigender"]
+            # Gender.ALLENBY
+            # choice(genderqueer_dicts["nbgender"])
+            
+        interbiney = ["intergender","ultergender","ipsogender"]
+            # Gender.INTERONLY
+            # choice(genderqueer_dicts["interonly"])
+        enby_masc = ["trans male", "trans masculine", "coffeebean transmasc", "demiboy", "genderfaun","rosboy","butch"]
+            # Gender.ENBYMASC
+            # choice(genderqueer_dicts["nbMasc"])
+        enby_fem = ["trans female","trans feminine", "honeybee transfem", "demigirl", "genderdoe", "azurgirl","femme"]
+            # Gender.ENBYFEM
+            # choice(genderqueer_dicts["nbFem"])
 
         self.genderalign = self.gender
         trans_chance = randint(1, 30)
@@ -725,6 +733,10 @@ class Cat:
                 trans_chance = 0
             else:
                 nb_chance = 0
+        
+            # if os.path.exists('resources/dicts/sexuality.json'):
+            #     with open('resources/dicts/sexuality.json') as read_file:
+            #         sexuality_dicts = ujson.loads(read_file.read())
 
         self.sexuality["gender"] = ["masc", "fem", "neu/other"]
         self.sexuality["display"] = ["pansexual"]
@@ -781,7 +793,7 @@ class Cat:
             elif nb_chance == 1:
                 intergenderchance = randint(1, 2)
                 if intergenderchance == 1:
-                    self.genderalign = "intergender"
+                    self.genderalign = choice(interbiney)
                 else:
                     self.genderalign = choice(nonbiney_list)
 
@@ -1046,11 +1058,16 @@ class Cat:
             value = pronouns.get_new_pronouns("nonbinary")
             return [value]
 
-        queer_list = ["intersex", "intergender", "trans male", "trans female", "nonbinary", "genderfluid", "demigirl",
-                      "demiboy", "genderfae", "genderfaun", "bigender", "genderqueer", "agender", "???",
-                      "deminonbinary", "trigender", "genderflux", "polygender"]
-        enby_masc = ["demiboy", "genderfaun", "trans masc"]
-        enby_fem = ["demigirl", "genderfae", "trans femme"]
+        
+        enby_masc = ["trans male", "trans masculine", "coffeebean transmasc", "demiboy", "genderfaun","rosboy","butch"]
+            # Gender.ENBYMASC
+            # choice(genderqueer_dicts["nbMasc"])
+        enby_fem = ["trans female","trans feminine", "honeybee transfem", "demigirl", "genderdoe", "azurgirl","femme"]
+        queer_list = ["intergender","ultergender","ipsogender","nonbinary","genderfluid","genderdoe","genderfaun","genderflux", "transneutral","agender","genderqueer","bigender","pangender","multigender","cusper","evenic","isogender","gendervoid","xenogender","cassgender","demigender",
+            # Gender.ALLENBY, Gender.INTERONLY, 
+            "intersex","trans female","trans feminine", "honeybee transfem", "demigirl", "genderdoe", "azurgirl","femme",
+            "trans male", "trans masculine", "coffeebean transmasc", "demiboy", "genderfaun","rosboy","butch"
+            ]
         
         she_him = randint(1, 5)
         neo_chance = constants.CONFIG["cat_generation"]["neopronoun_chance"]
@@ -1125,30 +1142,16 @@ class Cat:
     @staticmethod
     def get_genderalign_string(gender):
         # translate it if it's default
-        if gender in (
-            "female",
-            "trans female",
-            "male",
-            "trans male",
-            "intersex",
-            "intergender",
-            "demigirl",
-            "genderfae",
-            "demiboy",
-            "genderfaun",
-            "nonbinary",
-            "genderfluid",
-            "bigender",
-            "genderqueer",
-            "agender",
-            "???",
-            "deminonbinary",
-            "trigender",
-            "genderflux",
-            "polygender",
-        ):
-            return i18n.t(f"general.{gender}")
+        warriorGender=game_setting_get("warriorified gender")
+        if (
+            # warriorGender is True and 
+            gender in ["male","female","trans male","trans female","trans masculine","trans feminine","intersex","intergender","ultergender","ipsogender","nonbinary","genderfluid","genderdoe","genderfaun","genderflux", "transneutral","agender","genderqueer","bigender","pangender","multigender","cusper","evenic","isogender","gendervoid","xenogender","cassgender","demigender"]
+            ):
+            return i18n.t(f"general.genderCatify.{gender}")
+        # elif warriorGender is False:
+            # return i18n.t(f"general.genderClassic.{gender}")
         # otherwise, it's custom - just return it directly
+        # else:
         return gender
 
     @staticmethod
@@ -1445,6 +1448,34 @@ class Cat:
             return "sibling"
         else:
             return "general"
+
+    def become_kittypet(self):
+        self.status.become_kittypet(
+            new_social_status=CatSocial.KITTYPET
+        )
+        for app in self.apprentice.copy():
+            app_ob = Cat.fetch_cat(app)
+            if app_ob:
+                app_ob.update_mentor()
+
+        self.update_mentor()
+
+        for x in self.apprentice:
+            Cat.fetch_cat(x).update_mentor()
+    
+    def become_loner(self):
+        self.status.become_kittypet(
+            new_social_status=choice([CatSocial.LONER,CatSocial.ROGUE])
+        )
+        for app in self.apprentice.copy():
+            app_ob = Cat.fetch_cat(app)
+            if app_ob:
+                app_ob.update_mentor()
+
+        self.update_mentor()
+
+        for x in self.apprentice:
+            Cat.fetch_cat(x).update_mentor()
 
     def become_lost(self):
         """Makes a Clan cat a lost cat. Makes status changes and removes apprentices."""
@@ -2416,17 +2447,35 @@ class Cat:
             "splits": []
         }
         adult_canon = [
-            "Fireheart", "Graystripe", "Sandstorm", "Squirrelflight", "Brambleclaw", "Hollyleaf", "Jayfeather",
-            "Lionblaze", "Dovewing", "Ivypool", "Yellowfang", "Ravenpaw", "Bristlefrost", "Ashfur", "Cinderpelt",
-            "Alderheart", "Needletail", "Hawkfrost", "Mothwing", "Leafpool", "Crowfeather", "Nightheart", "Willowpelt",
-            "Shadowsight", "Tigerheart", "Grey Wing", "River", "Night", "Violetshine", "Twigbranch",  "Sol",
-            "Mapleshade", "Moth Flight", "Cinderheart", "Tall Shadow", "Talltail", "Onewhisker", "Darktail",
-            "Tigerclaw", "Scourge", "Brightheart", "Briarlight", "Cloudtail", "Thunder", "Feathertail", "Spottedleaf",
-            "Bluefur", "Bumblestripe", "Poppyfrost", "Stormfur", "Mistyfoot", "Star Flower", "Fallen Leaves",
-            "Berrynose", "Tawnypelt", "Webfoot", "Jake", "Sparkpelt", "Rootspring", "Nightcloud"
+            "Fireheart", "Graystripe", "Sandstorm", "Ravenpaw", 
+            "Tigerclaw","Darkstripe",
+            "Cinderpelt","Brackenfur","Yellowfang","Bluefur", "Scourge", "Brightheart", "Cloudtail", 
+            "Squirrelflight", "Brambleclaw", "Leafpool", "Crowfeather","Tawnypelt",
+            "Hollyleaf", "Jayfeather","Lionblaze", "Dovewing", "Ivypool", "Sol", "Fallen Leaves",
+            "Briarlight","Ashfur","Willowpelt","Ferncloud","Berrynose", "Bumblestripe", "Poppyfrost","Cinderheart",
+            "Stormfur","Feathertail", "Mistyfoot", "Stonefur","Hawkfrost", "Mothwing", "Mudclaw",
+            "Alderheart", "Needletail", "Violetshine", "Twigbranch", "Tigerheart", 
+            "Bristlefrost", "Nightheart", "Shadowsight",
+            "Grey Wing", "River", "Night", "Moth Flight", "Tall Shadow", "Thunder", "Star Flower", "Turtle Tail",
+            "Mapleshade",  "Talltail", "Onewhisker", "Darktail","Spottedleaf",
+            "Webfoot", "Jake", "Sparkpelt", "Rootspring", "Nightcloud",
+            "Brokentail"
         ]
         # oh jesus TODO: add more adol names D:
         adol_canon = [
+            #adol ver of adults
+            "Firepaw","Graypaw","Sandpaw","Ravenpaw",
+            "Tigerpaw","Darkpaw",
+            "Cinderpaw","Brackenpaw","Yellowpaw","Bluepaw", "Brightpaw", "Cloudpaw", 
+            "Squirrelpaw","Leafpaw","Bramblepaw","Crowpaw","Tawnypaw",
+            "Hollypaw","Jaypaw","Lionpaw","Dovepaw","Ivypaw",
+            "Briarpaw","Ashpaw","Willowpaw","Fernpaw","Berrypaw","Bumblepaw","Poppypaw","Cinderpaw",
+            "Stormpaw","Featherpaw","Stonepaw","Mistypaw","Hawkpaw","Mothpaw","Mudpaw",
+            "Alderpaw","Needlepaw","Violetpaw","Twigpaw","Tigerpaw",
+            "Bristlepaw","Flamepaw","Shadowpaw","Sparkpaw","Rootpaw",
+            "Maplepaw","Tallpaw","Onepaw","Spottedpaw","Webpaw","Nightpaw",
+            "Brokenpaw",
+
             # from Mapleshade's Vengeance
             "Flowerpaw",
 
@@ -2436,12 +2485,28 @@ class Cat:
             "Tiny Branch",
 
             # Ferncloud's relatives
-            "Cherrypaw"
+            "Cherrypaw","Molepaw",
+
+            "Ferretpaw","Moonpaw","Hazel Burrow","Harepaw","Copperpaw","Cypresspaw","Fluffpaw"
+
         ]
 
         kit_canon = [
+            # kit ver
+            "Firekit","Graykit","Sandkit","Ravenkit",
+            "Tigerkit","Darkkit",
+            "Cinderkit","Brackenkit","Yellowkit","Bluekit", "Brightkit", "Cloudkit", 
+            "Squirrelkit","Leafkit","Bramblekit","Crowkit","Tawnykit",
+            "Hollykit","Jaykit","Lionkit","Dovekit","Ivykit",
+            "Briarkit","Ashkit","Willowkit","Fernkit","Berrykit","Bumblekit","Poppykit","Cinderkit",
+            "Stormkit","Featherkit","Stonekit","Mistykit","Hawkkit","Mothkit","Mudkit",
+            "Alderkit","Needlekit","Violetkit","Twigkit","Tigerkit",
+            "Bristlekit","Flamekit","Shadowkit","Sparkkit","Rootkit",
+            "Maplekit","Tallkit","Onekit","Spottedkit","Webkit","Nightkit",
+            "Brokenkit",
+
             # category-less cats
-            "Snowkit", "Mosskit", "Lynxkit", "Galekit", "Haze", "Stream", "Tadpole",
+            "Snowkit", "Mosskit", "Lynxkit", "Galekit", "Haze", "Stream", "Tadpole","Hopekit","Wishkit",
 
             # from Mapleshade's Vengeance
             "Petalkit", "Patchkit",
@@ -2472,12 +2537,14 @@ class Cat:
 
             rng = randint(1, 10)
             is_intersex = True if (randint(1, 25) < 3 and self.gender == "intersex") else False
+            # if os.path.exists('resources/dicts/genders.json'):
+            #     with open('resources/dicts/genders.json') as read_file:
+            #         genderqueer_dicts = ujson.loads(read_file.read())
             if rng <= 2:
-                genderqueer_list = ["nonbinary", "neutrois", "agender", "genderqueer", "demigirl", "demiboy",
-                                    "demienby", "genderfluid", "genderfae", "genderfaun", "genderflor", "bigender",
-                                    "pangender", "???"]
+                genderqueer_list = ["nonbinary","genderfluid","genderdoe","genderfaun","genderflux", "transneutral","agender","genderqueer","bigender","pangender","multigender","cusper","evenic","isogender","gendervoid","xenogender","cassgender","demigender"]
                 if is_intersex:
-                    genderqueer_list.append("intergender")
+                    genderqueer_list = ["intergender","ultergender","ipsogender","nonbinary","genderfluid","genderdoe","genderfaun","genderflux", "transneutral","agender","genderqueer","bigender","pangender","multigender","cusper","evenic","isogender","gendervoid","xenogender","cassgender","demigender"]
+                        
                 gender = choice(genderqueer_list)
             else:
                 if is_intersex:
@@ -2537,19 +2604,23 @@ class Cat:
         else:  # fractured spirit alter
             extra = randint(1, 20)
             if extra == 1:
-                template["other"] = choice(["noncat", "rogue", "loner", "kittypet", "otherclan", "fictive", "factive",
+                template["other"] = choice(["noncat", "rogue", "loner", "kittypet", "otherclan","fictive", "factive",
                                             "fuzztive"])
             different_gender = randint(1, 5)
             gender = None
+            # if os.path.exists('resources/dicts/genders.json'):
+            #     with open('resources/dicts/genders.json') as read_file:
+            #         genderqueer_dicts = ujson.loads(read_file.read())
             if different_gender == 1:
                 rng = randint(1, 10)
                 is_intersex = True if (randint(1, 25) < 3 and self.gender == "intersex") else False
                 if rng <= 2:
-                    genderqueer_list = ["nonbinary", "neutrois", "agender", "genderqueer", "demigirl", "demiboy",
-                                        "demienby", "genderfluid", "genderfae", "genderfaun", "genderflor", "bigender",
-                                        "pangender", "???"]
+                    genderqueer_list = ["nonbinary","genderfluid","genderdoe","genderfaun","genderflux", "transneutral","agender","genderqueer","bigender","pangender","multigender","cusper","evenic","isogender","gendervoid","xenogender","cassgender","demigender"]
+                    # genderqueer_list = ["nonbinary", "neutrois", "agender", "genderqueer", "demigirl", "demiboy",
+                    #                     "demienby", "genderfluid", "genderfae", "genderfaun", "genderflor", "bigender",
+                    #                     "pangender", "???"] #GENDERCHOICEEDIT GENDER COMEBACK
                     if is_intersex:
-                        genderqueer_list.append("intergender")
+                        genderqueer_list = ["intergender","ultergender","ipsogender","nonbinary","genderfluid","genderdoe","genderfaun","genderflux", "transneutral","agender","genderqueer","bigender","pangender","multigender","cusper","evenic","isogender","gendervoid","xenogender","cassgender","demigender"]
                     gender = choice(genderqueer_list)
                 else:
                     if is_intersex:
@@ -4069,7 +4140,7 @@ class Cat:
 
         # Inheritance check
         if self.is_related(other_cat, first_cousin_mates, second_cousin_mates):
-            return False
+            return True
 
         # check dead cats
         if self.dead != other_cat.dead:
@@ -4081,7 +4152,7 @@ class Cat:
 
         # check for age
         if age_restriction:
-            if (self.moons < 14 or other_cat.moons < 14) and not for_love_interest:
+            if (self.moons < 3 or other_cat.moons < 3) and not for_love_interest:
                 return False
 
             # the +1 is necessary because both might not already be aged up
@@ -5604,7 +5675,39 @@ class Cat:
 # ---------------------------------------------------------------------------- #
 #                               END OF CAT CLASS                               #
 # ---------------------------------------------------------------------------- #
+class Gender:
+    """gender for my cats"""
+    CISSEX = ["male","female","intersex"]
+    INTERONLY=["intergender","ultergender","ipsogender"]
+    TRANSMASC=["trans male","trans masculine"]
+    TRANSFEM=["trans female","trans feminine"]
+    ENBYMASC=["genderfaun","butch","rosboy""demiboy","coffeebean transmasc"]
+    ENBYFEM=["genderdoe","femme","azurgirl","demigirl","honeybee transfem"]
+    ENBYNEU=["genderflor","nonbinary","transneutral","agender","neutrois","gendervoid","demigender"]
+    FLUID=["genderfluid","genderflux","genderflor","genderdoe","genderfaun"]
+    MULTI=["bigender","pangender","multigender","polygender","transfemmasc","transmascfem","transfemmascneu"]
+    MISC=["genderqueer","cusper","evenic","isogender","xenogender","cassgender","transxenic"]
+    ALLENBY=[
+        "trans masculine","trans feminine",
+        ENBYMASC,ENBYFEM,ENBYNEU,FLUID,MULTI,MISC
+    ]
+    BINARYTRANS=[TRANSMASC,TRANSFEM]
+    ALLENBY_INTERONLY=[
+        ALLENBY,INTERONLY
+    ]
+    ALLGENDER=[CISSEX,INTERONLY,TRANSMASC,TRANSFEM,ENBYMASC,ENBYFEM,ENBYNEU,FLUID,MULTI,MISC]
 
+    def is_enby(self):
+        return self in Gender.ALLENBY
+    def binarygender(self):
+        return self in ("trans male","trans female","male","female")
+    def customgender(self):
+        return self not in Gender.ALLGENDER
+
+    GENDERQUEER=[customgender,TRANSFEM,TRANSMASC,INTERONLY,is_enby,"intersex"]
+
+    def is_genderqueer(self):
+        return self in Gender.GENDERQUEER
 
 # Creates a random cat
 def create_cat(rank, moons=None, biome=None, secondary_biome=None, tertiary_biome=None, secondary_biome_weight=None, tertiary_biome_weight=None):
@@ -5758,3 +5861,4 @@ load_leader_ceremonies()
 
 with open("resources/dicts/backstories.json", "r", encoding="utf-8") as read_file:
     BACKSTORIES = ujson.loads(read_file.read())
+

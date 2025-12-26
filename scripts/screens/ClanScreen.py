@@ -358,7 +358,10 @@ class ClanScreen(Screens):
         switch_set_value(Switch.saved_clan, False)
 
     def update_camp_bg(self):
-        light_dark = "dark" if game_setting_get("dark mode") else "light"
+        if game_setting_get("flipped camp") is True:
+            light_dark = "light" if game_setting_get("dark mode") else "dark"
+        else:
+            light_dark = "dark" if game_setting_get("dark mode") else "light"
 
         camp_bg_base_dir = "resources/images/camp_bg/"
         leaves = ["newleaf", "greenleaf", "leafbare", "leaffall"]

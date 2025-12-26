@@ -10,7 +10,7 @@ import pygame_gui
 import ujson
 import math
 
-from scripts.cat.cats import Cat, BACKSTORIES
+from scripts.cat.cats import Cat, Gender, BACKSTORIES
 from scripts.clan_resources.freshkill import FRESHKILL_ACTIVE
 from scripts.game_structure import image_cache
 from scripts.game_structure.game_essentials import game
@@ -114,6 +114,8 @@ class ProfileScreen(Screens):
         self.sub_tab_1 = None
         self.backstory_background = None
         self.history_text_box = None
+        # self.bonus_text_box = None
+        # self.debug_text_box = None
         self.conditions_tab_button = None
         self.alters_tab_button = None
         self.guide_tab_button = None
@@ -275,6 +277,8 @@ class ProfileScreen(Screens):
         elif self.open_tab == "roles":
             if event.ui_element == self.manage_roles:
                 self.change_screen("role screen")
+            elif event.ui_element == self.debug_button:
+                self.change_screen("debug screen")
             elif event.ui_element == self.change_mentor_button:
                 self.change_screen("choose mentor screen")
         # Personal Tab
@@ -287,51 +291,82 @@ class ProfileScreen(Screens):
                 self.change_screen("modify orientation screen")
             elif event.ui_element == self.predict_offspring_button:
                 self.change_screen("predict offspring screen")
+            elif event.ui_element == self.cat_toggles_button:
+                ChangeCatToggles(self.the_cat)
+
             # when button is pressed...
+            # gender time! GENDERHERE
+            # if os.path.exists('resources/dicts/genders.json'):
+            #     with open('resources/dicts/genders.json') as read_file:
+            #         genderqueer_dicts = ujson.loads(read_file.read())
             elif event.ui_element == self.cis_trans_button:
-                nonbiney_list = ['nonbinary', 'genderfluid', 'demigirl', 'demiboy', 'genderfae', 'genderfaun', 'bigender', 'genderqueer', 'agender', '???', "deminonbinary", "trigender", "genderflux", "polygender"]
-                # if the cat is anything besides m/f/transm/transf then turn them back to cis
-                if self.the_cat.genderalign not in [
-                    "female",
-                    "trans female",
-                    "male",
-                    "trans male",
-                    "intersex"
-                ]:
-                    self.the_cat.genderalign = self.the_cat.gender
-                elif (
-                    self.the_cat.gender == "male"
-                    and self.the_cat.genderalign == "female"
+                cissex = ["male","female","intersex"]
+                    # choice(Gender.CISSEX)
+                    # choice(genderqueer_dicts["cissex"])
+                    # 
+                intergender = ["intergender","ultergender","ipsogender"]
+                    # choice(Gender.INTERONLY)
+                    # choice(genderqueer_dicts["interonly"])
+                    # 
+                transfem = ["trans female","trans feminine","honeybee transfem"]
+                    # choice(Gender.TRANSFEM)
+                    # choice(genderqueer_dicts["transfem"])
+                    # 
+                transmasc = ["trans male","trans masculine","coffeebean transmasc"]
+                    # choice(Gender.TRANSMASC)
+                    # choice(genderqueer_dicts["transmasc"])
+                    # 
+                transbinary = transmasc+transfem
+                    # choice(Gender.BINARYTRANS)
+                    # choice(genderqueer_dicts["transbinary"])
+                    # 
+                nbgender = ["nonbinary","genderfluid","genderdoe","genderfaun","genderflux","transneutral","agender","genderqueer","bigender","pangender","multigender","butch","femme","cusper","evenic","isogender","gendervoid","xenogender","cassgender","demigender","demiboy","demigirl","rosboy","azurgirl"]
+                    # choice(Gender.ALLENBY)
+                    # choice(genderqueer_dicts["nbgender"])
+                allgender= cissex+intergender+transfem+transmasc+nbgender
+                    # Gender.ALLGENDER
+                # back to cis
+                if (
+                    self.the_cat.genderalign 
+                    in nbgender
+                    or not allgender
                 ):
                     self.the_cat.genderalign = self.the_cat.gender
+                # mtf
                 elif (
-                    self.the_cat.gender == "female"
+                    self.the_cat.gender == "male" 
                     and self.the_cat.genderalign == "male"
                 ):
-                    self.the_cat.genderalign = self.the_cat.gender
-
-                # if the cat is cis (gender & gender align are the same) then set them to trans
-                # cis males -> trans female first
+                    self.the_cat.genderalign = choice(transfem)
+                # ftm
                 elif (
-                    self.the_cat.gender == "male" and self.the_cat.genderalign == "male"
-                ):
-                    self.the_cat.genderalign = "trans female"
-                # cis females -> trans male
-                elif (
-                    self.the_cat.gender == "female"
+                    self.the_cat.gender == "female" 
                     and self.the_cat.genderalign == "female"
                 ):
-                    self.the_cat.genderalign = "trans male"
-                # if the cat is trans then set them to nonbinary
-                elif self.the_cat.genderalign in ["trans female", "trans male", "intersex"]:
-                    self.the_cat.genderalign = choice(nonbiney_list)
-                # pronoun handler
+                    self.the_cat.genderalign = choice(transmasc)
+                # intersex to intergender
+                elif (
+                    self.the_cat.gender == "intersex" 
+                    and self.the_cat.genderalign == "intersex"
+                ):
+                    self.the_cat.genderalign = choice(intergender)
+                # intergender to trans
+                elif (
+                    self.the_cat.gender == "intersex"
+                    and self.the_cat.genderalign in intergender
+                ):
+                    self.the_cat.genderalign = choice(transbinary)
+                # nbify
+                elif (
+                    self.the_cat.genderalign 
+                    in transbinary
+                ):
+                    self.the_cat.genderalign = choice(nbgender)
                 self.the_cat.pronouns = get_new_pronouns(self.the_cat.genderalign)
                 self.clear_profile()
                 self.build_profile()
                 self.update_disabled_buttons_and_text()
-            elif event.ui_element == self.cat_toggles_button:
-                ChangeCatToggles(self.the_cat)
+
         # Dangerous Tab
         elif self.open_tab == "dangerous":
             if event.ui_element == self.kill_cat_button:
@@ -403,7 +438,11 @@ class ProfileScreen(Screens):
                 self.update_disabled_buttons_and_text()
         # History Tab
         elif self.open_tab == "history":
+
+                #if you open tab 1: life events
             if event.ui_element == self.sub_tab_1:
+
+                #if usernotes are open, kill notes
                 if self.open_sub_tab == "user notes":
                     self.notes_entry.kill()
                     self.display_notes.kill()
@@ -412,13 +451,81 @@ class ProfileScreen(Screens):
                     if self.save_text:
                         self.save_text.kill()
                     self.help_button.kill()
+                
+                #if extra is open, kill textbox
+                # elif self.open_sub_tab == "extra":
+                #     self.bonus_text_box.kill()
+
+                #if debug is open, kill debug box
+                elif self.open_sub_tab == "debug":
+                    self.debug_text_box.kill()
+
+
+                #open tab
                 self.open_sub_tab = "life events"
                 self.toggle_history_sub_tab()
+
+                # open tab 2: user ntoes
             elif event.ui_element == self.sub_tab_2:
+
+                # if life events is open, kill hist box
                 if self.open_sub_tab == "life events":
                     self.history_text_box.kill()
+
+                # if extra is open, kill extra
+                # elif self.open_sub_tab == "extra":
+                #     self.bonus_text_box.kill()
+
+                # if debug is open, kill debug text
+                elif self.open_sub_tab == "debug":
+                    self.debug_text_box.kill()
+
+                #open tab
                 self.open_sub_tab = "user notes"
                 self.toggle_history_sub_tab()
+            
+            #     #extra info
+            # elif event.ui_element == self.sub_tab_3:
+
+            #     if self.open_sub_tab == "user notes":
+            #         self.notes_entry.kill()
+            #         self.display_notes.kill()
+            #         if self.edit_text:
+            #             self.edit_text.kill()
+            #         if self.save_text:
+            #             self.save_text.kill()
+            #         self.help_button.kill()
+
+            #     elif self.open_sub_tab == "life events":
+            #         self.history_text_box.kill()
+
+            #     elif self.open_sub_tab == "debug":
+            #         self.debug_text_box.kill()
+
+            #     self.open_sub_tab = "extra"
+            #     self.toggle_history_sub_tab()
+                
+                #debug
+            elif event.ui_element == self.sub_tab_4:
+                if self.open_sub_tab == "user notes":
+                    self.notes_entry.kill()
+                    self.display_notes.kill()
+                    if self.edit_text:
+                        self.edit_text.kill()
+                    if self.save_text:
+                        self.save_text.kill()
+                    self.help_button.kill()
+
+                elif self.open_sub_tab == "life events":
+                    self.history_text_box.kill()
+
+                # elif self.open_sub_tab == "extra":
+                #     self.bonus_text_box.kill()
+
+                self.open_sub_tab = "debug"
+                self.toggle_history_sub_tab()
+
+
             elif event.ui_element == self.fav_tab:
                 switch_set_value(Switch.favorite_sub_tab, None)
                 self.fav_tab.hide()
@@ -812,12 +919,13 @@ class ProfileScreen(Screens):
         """Generate the left column information"""
         output = ""
 
-        # ID
-        output += "ID: " + str(the_cat.ID)
-        # NEWLINE ----------
-        output += "\n"
+        # # ID
+        # output += "ID: " + str(the_cat.ID)
+        # # NEWLINE ----------
+        # output += "\n"
 
         # SEX/GENDER
+        # if game_setting_get("warriorified gender") is True:
         if the_cat.genderalign is None:
             output += Cat.get_gender_string(the_cat.gender)
         else:
@@ -834,43 +942,18 @@ class ProfileScreen(Screens):
             output += i18n.t(f"general.{the_cat.age.value}", count=1)
         # NEWLINE ----------
         output += "\n"
-
+#COMEBACK
         # EYE COLOR
         if the_cat.age == CatAge.NEWBORN:
             output += "???"
         else:
             # avoiding translation bc there are 500 eye colors and i dont hate myself
             output += "eyes: " + str(the_cat.describe_eyes())
+
         # NEWLINE ----------
         output += "\n"
 
-        # SKIN COLOR
-        output += "skin: " + str(the_cat.describe_skin())
-        # NEWLINE ----------
-        output += "\n"
-
-        # PELT TYPE
-        output += "pelt: " + the_cat.pelt.name.lower()
-        # NEWLINE ----------
-        output += "\n"
-
-        # PELT LENGTH
-        output += "fur length: " + the_cat.pelt.length
-        # NEWLINE ----------
-        output += "\n"
-
-        # FUR TEXTURE
-        output += "fur texture: " + the_cat.pelt.fur_texture
-        # NEWLINE ----------
-        output += "\n"
-
-        # HEIGHT
-        output += "height: " + the_cat.pelt.height
-        # NEWLINE ----------
-        output += "\n"
-
-        # BUILD
-        output += "build: " + the_cat.pelt.build
+        output += "fur length: " + self.the_cat.pelt.length
 
         # NEWLINE ----------
 
@@ -918,140 +1001,6 @@ class ProfileScreen(Screens):
             output += i18n.t("general.moons_age", count=the_cat.moons)
             output += i18n.t("general.years_age", count=years)
 
-        # TRAITS
-        trait_descriptions = {
-            'TEETHUPPER': 'long upper fangs',
-            'TEETHSABRE': 'sabre teeth',
-            'TEETHUNDERBITE': 'underbite',
-            'TEETHOVERBITE': 'overbite',
-            'TEETHHANG': 'a hanging fang',
-            'TEETHJAGGED': 'uneven teeth',
-            'TEETHTUSK': 'tusked fangs',
-            'TEETHGONE': 'missing a tooth',
-            'TEETHCHIPPED': 'a chipped tooth',
-            'EARSMALL': 'small ears',
-            'EARBIG': 'big ears',
-            'EARTALL': 'tall ears',
-            'EARPANTHER': 'rounded ears',
-            'EARWIDE': 'wide-set ears',
-            'EARFLUFFY': 'fluffy ears',
-            'FOLDBOTH': 'folded ears',
-            'FOLDONE': 'one folded ear',
-            'EARCURL': 'curled ears',
-            'EARDROOPY': 'droopy ears',
-            'EARRABBIT': 'rabbit-like ears',
-            'HEADFORELOCK': 'forelock',
-            'HEADCOWLICK': 'cowlick',
-            'HEADMOHAWK': 'mohawk',
-            'HEADTUFT': 'tufted head fur',
-            'HEADEMO': 'emo-style head fur',
-            'HEADJOWLS': 'prominent jowls',
-            'CHEEKLONG': 'long cheek fur',
-            'CHEEKPOINTED': 'pointed cheek fur',
-            'CHEEKFLUFF': 'fluffy cheeks',
-            'CHEEKCURL': 'curled cheek fur',
-            'MANESILKY': 'silky mane',
-            'MANEFLUFFY': 'fluffy mane',
-            'MANERUFF': 'ruff',
-            'MANEHORSE': 'horse-like mane',
-            'MANELION': 'lion-like mane',
-            'MANEBRAIDED': 'braided mane',
-            'MANECOBRA': 'cobra-like mane',
-            'FURWAVY': 'wavy fur',
-            'FURCURLY': 'curly fur',
-            'FURPATCHY': 'patchy fur',
-            'FURKINK': 'kinked fur',
-            'FURSHAGGY': 'shaggy fur',
-            'MUZZLESHORT': 'short muzzle',
-            'MUZZLEBROAD': 'broad muzzle',
-            'MUZZLELONG': 'long muzzle',
-            'BODYBROAD': 'broad shoulders',
-            'BODYWIRY': 'wiry',
-            'BODYLITHE': 'lithe',
-            'BODYSKINNY': 'skinny',
-            'BODYBUFF': 'muscular',
-            'BODYCOMPACT': 'compact',
-            'BODYHUNCHED': 'hunched',
-            'BODYHEFTY': 'hefty',
-            'BODYBURLY': 'burly',
-            'BODYBULKY': 'bulky',
-            'BODYPLUMP': 'plump',
-            'BODYBRAWNY': 'brawny',
-            'BODYSTOUT': 'stout',
-            'BODYBROAD': 'broad',
-            'BODYCHUBBY': 'chubby',
-            'BODYFAT': 'fat',
-            'BODYSTOCKY': 'stocky',
-            'BODYCHUNKY': 'chunky',
-            'BODYBIGBONED': 'big-boned',
-            'SIZETINY': 'tiny',
-            'SIZESMALL': 'small',
-            'SIZESHORT': 'short',
-            'SIZETALL': 'tall',
-            'SIZELARGE': 'large',
-            'SIZEHUGE': 'huge',
-            'EARTUFTS': 'ear tufts',
-            'POLYDACTYL': 'polydactyl',
-            'LASHESUPPER': 'upper lashes',
-            'LASHESLOWER': 'lower lashes',
-            'WHISKERSLONG': 'long whiskers',
-            'TAILCROOKED': 'crooked tail',
-            'TAILLONG': 'long tail',
-            'TAILFEATHER': 'feathered tail',
-            'TAILCURL': 'curled tail',
-            'TAILTUFT': 'tufted tail',
-            'TAILFORKED': 'forked tail',
-            'CLAWSLONG': 'unusually long claws',
-            'TAILFOX': 'fox-like tail',
-            'BACKFLUFF': 'fluffy back',
-            'BACKRIDGE': 'fur ridge on back',
-            'SHOULDERTUFT': 'tufted shoulders',
-            'LEGTUFT': 'tufted legs',
-            'LARGEPAWS': 'large paws',
-            'SMALLPAWS': 'small paws',
-            'CLAWLESS': 'clawless',
-            'CLAWSSHORT': 'unusually short claws',
-            'PAWTUFT': 'tufted paws',
-            'BIGEYES': 'big eyes',
-            'SMALLEYES': 'small eyes',
-            'BIGNOSE': 'big nose',
-            'HEARTSHAPEDNOSE': 'heart-shaped nose',
-            'LONGLEGS': 'long-legged',
-            'SHORTLEGS': 'short-legged',
-            'CROSSEYED': 'cross-eyed',
-            'LAZYEYE': 'lazy eye',
-            'OVERGROWNTONGUE': 'overgrown tongue',
-            'LONGCHINFUR': 'long chin fur',
-            'SHORTCHINFUR': 'short chin fur',
-            'LONGMUZZLEFUR': 'long muzzle fur',
-            'LONGINNEREARFUR': 'long inner ear fur',
-            'WEBBEDPAWS': 'webbed paws',
-            'MISSINGTOE': 'missing a toe',
-            'UNDERSIZEDJAW': 'undersized jaw',
-            'OVERSIZED JAW': 'oversized jaw',
-            'HEADMULLET': 'mullet',
-            'FURBARBELS': 'fur barbels'
-        }
-
-        trait_list = []
-        if the_cat.pelt.physical_trait_1:
-            trait_list.append(the_cat.pelt.physical_trait_1)
-            if the_cat.pelt.physical_trait_2:
-                trait_list.append(the_cat.pelt.physical_trait_2)
-                if the_cat.pelt.physical_trait_3:
-                    trait_list.append(the_cat.pelt.physical_trait_3)
-                    if the_cat.pelt.physical_trait_4:
-                        trait_list.append(the_cat.pelt.physical_trait_4)
-
-        if trait_list:
-            output += "\n"
-            output += "traits: "
-            for trait in trait_list:
-                if trait in trait_descriptions:
-                    output += trait_descriptions[trait] + ", "
-                else:
-                    output += trait + ", "  # In case the trait is not found in the dictionary
-            output = output.rstrip(", ")  # Remove the trailing comma and space
             
         # MATE
         if len(the_cat.mate) > 0:
@@ -1275,14 +1224,18 @@ class ProfileScreen(Screens):
                 new_line = "\n"
             else:
                 new_line = ""
-            if get_clan_setting("sexuality labels") is True:
-                sexuality_text = Cat.display_sexuality(the_cat.sexuality["display"], the_cat.moons) + f"{new_line}" + Cat.display_gendered_attraction(the_cat.sexuality["gender"])
-            else:
-                sexuality_text = Cat.display_gendered_attraction(the_cat.sexuality["gender"])
-            output += sexuality_text
+        if get_clan_setting("sexuality labels") is True:
+            sexuality_text = (
+                Cat.display_sexuality(the_cat.sexuality["display"], the_cat.moons) 
+                + f"{new_line}" 
+        #         + Cat.display_gendered_attraction(the_cat.sexuality["gender"])
+        )
+        # else:
+        #     sexuality_text = Cat.display_gendered_attraction(the_cat.sexuality["gender"])
+        output += sexuality_text
 
             # NEWLINE ----------
-            output += "\n"
+        # output += "\n"
 
         # AWAKENED
         if the_cat.awakened:
@@ -1519,6 +1472,7 @@ class ProfileScreen(Screens):
                 manager=MANAGER,
             )
             self.sub_tab_1.disable()
+
             self.sub_tab_2 = UIImageButton(
                 ui_scale(pygame.Rect((709, 512), (42, 30))),
                 "",
@@ -1526,6 +1480,7 @@ class ProfileScreen(Screens):
                 manager=MANAGER,
             )
             self.sub_tab_2.disable()
+
             self.sub_tab_3 = UIImageButton(
                 ui_scale(pygame.Rect((709, 549), (42, 30))),
                 "",
@@ -1533,6 +1488,7 @@ class ProfileScreen(Screens):
                 manager=MANAGER,
             )
             self.sub_tab_3.disable()
+
             self.sub_tab_4 = UIImageButton(
                 ui_scale(pygame.Rect((709, 586), (42, 30))),
                 "",
@@ -1540,6 +1496,7 @@ class ProfileScreen(Screens):
                 manager=MANAGER,
             )
             self.sub_tab_4.disable()
+
             self.fav_tab = UIImageButton(
                 ui_scale(pygame.Rect((55, 480), (28, 28))),
                 "",
@@ -1651,6 +1608,107 @@ class ProfileScreen(Screens):
 
         elif self.open_sub_tab == "user notes":
             self.toggle_user_notes_tab()
+        
+        # elif self.open_sub_tab == "extra info":
+        #     self.toggle_extra_tab()
+
+        elif self.open_sub_tab == "debug":
+            self.toggle_debug_tab()
+    
+    def toggle_debug_tab(self):
+        """Opens the debug notes portion of the History Tab"""
+        self.debuginfo = ""
+        
+        self.debug_text_box = UITextBoxTweaked(
+            self.debuginfo,
+            ui_scale(pygame.Rect((100, 473), (600, 149))),
+            object_id="#text_box_26_horizleft_pad_10_14",
+            line_spacing=1,
+            manager=MANAGER,
+        )
+
+        self.update_disabled_buttons_and_text()
+
+    def build_debug_info(self):
+        self.debuginfo = ""
+        sexuality = Cat.display_gendered_attraction(self.the_cat.sexuality["gender"])
+        newline = "\n"
+        blank = " "
+
+        # gen
+        self.debuginfo += f"ID: {self.the_cat.ID}" + newline
+        self.debuginfo += f"facets: lawfulness ({self.the_cat.personality.lawfulness}), sociability ({self.the_cat.personality.sociability}), aggression ({self.the_cat.personality.aggression}), stability ({self.the_cat.personality.stability})" + newline + newline
+        self.debuginfo += f"sex: {self.the_cat.gender}" + newline
+        self.debuginfo += f"{sexuality}" + newline
+
+        # physique
+        self.debuginfo += newline + "physique" + newline
+
+        if self.the_cat.pelt.scars:
+            self.debuginfo += f"scars: " + self.the_cat.pelt.scars + newline
+
+        self.debuginfo += "skin: " + self.the_cat.describe_skin() + f" ({self.the_cat.pelt.skin.lower()})"+ newline
+        self.debuginfo += "pelt: " + self.the_cat.pelt.name.lower() + f" {self.the_cat.pelt.colour.lower()}" + newline
+        if self.the_cat.pelt.tortiebase is not None:
+            self.debuginfo += ("tortie: " + 
+                               self.the_cat.pelt.tortiebase.lower() + blank +
+                               self.the_cat.pelt.tortiecolour.lower() + blank +
+                               self.the_cat.pelt.tortiepattern.lower() + blank +
+                               newline + newline
+            )
+        # self.debuginfo += "fur length: " + self.the_cat.pelt.length + newline
+        self.debuginfo += "fur texture: " + self.the_cat.pelt.fur_texture + newline + newline
+        self.debuginfo += "height: " + self.the_cat.pelt.height + newline
+        self.debuginfo += "build: " + self.the_cat.pelt.build + newline
+
+        # TRAITS
+        trait_descriptions = {'TEETHUPPER': 'long upper fangs', 'TEETHSABRE': 'sabre teeth', 'TEETHUNDERBITE': 'underbite', 'TEETHOVERBITE': 'overbite', 'TEETHHANG': 'a hanging fang', 'TEETHJAGGED': 'uneven teeth', 'TEETHTUSK': 'tusked fangs', 'TEETHGONE': 'missing a tooth', 'TEETHCHIPPED': 'a chipped tooth', 'EARSMALL': 'small ears', 'EARBIG': 'big ears', 'EARTALL': 'tall ears', 'EARPANTHER': 'rounded ears', 'EARWIDE': 'wide-set ears', 'EARFLUFFY': 'fluffy ears', 'FOLDBOTH': 'folded ears', 'FOLDONE': 'one folded ear', 'EARCURL': 'curled ears', 'EARDROOPY': 'droopy ears', 'EARRABBIT': 'rabbit-like ears', 'HEADFORELOCK': 'forelock', 'HEADCOWLICK': 'cowlick', 'HEADMOHAWK': 'mohawk', 'HEADTUFT': 'tufted head fur', 'HEADEMO': 'emo-style head fur', 'HEADJOWLS': 'prominent jowls', 'CHEEKLONG': 'long cheek fur', 'CHEEKPOINTED': 'pointed cheek fur', 'CHEEKFLUFF': 'fluffy cheeks', 'CHEEKCURL': 'curled cheek fur', 'MANESILKY': 'silky mane', 'MANEFLUFFY': 'fluffy mane', 'MANERUFF': 'ruff', 'MANEHORSE': 'horse-like mane', 'MANELION': 'lion-like mane', 'MANEBRAIDED': 'braided mane', 'MANECOBRA': 'cobra-like mane', 'FURWAVY': 'wavy fur', 'FURCURLY': 'curly fur', 'FURPATCHY': 'patchy fur', 'FURKINK': 'kinked fur', 'FURSHAGGY': 'shaggy fur', 'MUZZLESHORT': 'short muzzle', 'MUZZLEBROAD': 'broad muzzle', 'MUZZLELONG': 'long muzzle', 'BODYBROAD': 'broad shoulders', 'BODYWIRY': 'wiry', 'BODYLITHE': 'lithe', 'BODYSKINNY': 'skinny', 'BODYBUFF': 'muscular', 'BODYCOMPACT': 'compact', 'BODYHUNCHED': 'hunched', 'BODYHEFTY': 'hefty', 'BODYBURLY': 'burly', 'BODYBULKY': 'bulky', 'BODYPLUMP': 'plump', 'BODYBRAWNY': 'brawny', 'BODYSTOUT': 'stout', 'BODYBROAD': 'broad', 'BODYCHUBBY': 'chubby', 'BODYFAT': 'fat', 'BODYSTOCKY': 'stocky', 'BODYCHUNKY': 'chunky', 'BODYBIGBONED': 'big-boned', 'SIZETINY': 'tiny', 'SIZESMALL': 'small', 'SIZESHORT': 'short', 'SIZETALL': 'tall', 'SIZELARGE': 'large', 'SIZEHUGE': 'huge', 'EARTUFTS': 'ear tufts', 'POLYDACTYL': 'polydactyl', 'LASHESUPPER': 'upper lashes', 'LASHESLOWER': 'lower lashes', 'WHISKERSLONG': 'long whiskers', 'TAILCROOKED': 'crooked tail', 'TAILLONG': 'long tail', 'TAILFEATHER': 'feathered tail', 'TAILCURL': 'curled tail', 'TAILTUFT': 'tufted tail', 'TAILFORKED': 'forked tail', 'CLAWSLONG': 'unusually long claws', 'TAILFOX': 'fox-like tail', 'BACKFLUFF': 'fluffy back', 'BACKRIDGE': 'fur ridge on back', 'SHOULDERTUFT': 'tufted shoulders', 'LEGTUFT': 'tufted legs', 'LARGEPAWS': 'large paws', 'SMALLPAWS': 'small paws', 'CLAWLESS': 'clawless', 'CLAWSSHORT': 'unusually short claws', 'PAWTUFT': 'tufted paws', 'BIGEYES': 'big eyes', 'SMALLEYES': 'small eyes', 'BIGNOSE': 'big nose', 'HEARTSHAPEDNOSE': 'heart-shaped nose', 'LONGLEGS': 'long-legged', 'SHORTLEGS': 'short-legged', 'CROSSEYED': 'cross-eyed', 'LAZYEYE': 'lazy eye', 'OVERGROWNTONGUE': 'overgrown tongue', 'LONGCHINFUR': 'long chin fur', 'SHORTCHINFUR': 'short chin fur', 'LONGMUZZLEFUR': 'long muzzle fur', 'LONGINNEREARFUR': 'long inner ear fur', 'WEBBEDPAWS': 'webbed paws', 'MISSINGTOE': 'missing a toe', 'UNDERSIZEDJAW': 'undersized jaw', 'OVERSIZED JAW': 'oversized jaw', 'HEADMULLET': 'mullet', 'FURBARBELS': 'fur barbels'
+        }
+
+        trait_list = []
+        if self.the_cat.pelt.physical_trait_1:
+            trait_list.append(self.the_cat.pelt.physical_trait_1)
+            if self.the_cat.pelt.physical_trait_2:
+                trait_list.append(self.the_cat.pelt.physical_trait_2)
+                if self.the_cat.pelt.physical_trait_3:
+                    trait_list.append(self.the_cat.pelt.physical_trait_3)
+                    if self.the_cat.pelt.physical_trait_4:
+                        trait_list.append(self.the_cat.pelt.physical_trait_4)
+
+        if trait_list:
+            self.debuginfo += "\n"
+            self.debuginfo += "traits: "
+            for trait in trait_list:
+                if trait in trait_descriptions:
+                    self.debuginfo += trait_descriptions[trait] + ", "
+                else:
+                    self.debuginfo += trait + ", "  # In case the trait is not found in the dictionary
+            self.debuginfo = self.debuginfo.rstrip(", ")  # Remove the trailing comma and space
+
+        #COMEBACK
+        # self.debuginfo += f"Attracted to: {self.the_cat.sexuality["gender"]}\n"
+        
+    def toggle_extra_tab(self):
+        """Opens the extra info tab"""
+        self.extrainfo = ""
+        
+        self.bonus_text_box = UITextBoxTweaked(
+            self.extrainfo,
+            ui_scale(pygame.Rect((100, 473), (600, 149))),
+            object_id="#text_box_26_horizleft_pad_10_14",
+            line_spacing=1,
+            manager=MANAGER,
+        )
+
+        self.update_disabled_buttons_and_text()
+
+    # def build_extra_info(self):
+    #     self.extrainfo=""
+
+    #     # gen
+    #     self.extrainfo += f"Base Pelt: {self.the_cat.pelt}\n"
+    #     self.extrainfo += "Attraction:" + self.the_cat.display_gendered_attraction(the_cat.sexuality["gender"]) +" \n"
+    
 
     def get_all_history_text(self):
         """Generates a string with all important history information."""
@@ -2701,11 +2759,21 @@ class ProfileScreen(Screens):
                 starting_height=2,
                 manager=MANAGER,
             )
+            self.debug_button = UISurfaceImageButton(
+                ui_scale(pygame.Rect((226, 0), (172, 36))),
+                "screens.profile.debug_button",
+                get_button_dict(ButtonStyles.LADDER_MIDDLE, (172, 36)),
+                object_id="@buttonstyles_ladder_middle",
+                anchors={"top_target": self.manage_roles},
+                starting_height=2,
+                manager=MANAGER,
+            )
             self.change_mentor_button = UISurfaceImageButton(
-                ui_scale(pygame.Rect((226, 486), (172, 36))),
+                ui_scale(pygame.Rect((226, 0), (172, 36))),
                 "screens.profile.mentor",
                 get_button_dict(ButtonStyles.LADDER_BOTTOM, (172, 36)),
                 object_id="@buttonstyles_ladder_bottom",
+                anchors={"top_target": self.debug_button},
                 starting_height=2,
                 manager=MANAGER,
             )
@@ -2790,6 +2858,11 @@ class ProfileScreen(Screens):
                 manager=MANAGER,
                 anchors={"top_target": self.predict_offspring_button},
             )
+
+            if self.the_cat.status.alive_in_player_clan:
+                self.cat_toggles_button.enable()
+            else:
+                self.cat_toggles_button.enable()
 
             self.update_disabled_buttons_and_text()
 
@@ -2883,8 +2956,10 @@ class ProfileScreen(Screens):
         elif self.open_tab == "roles":
             if not self.the_cat.status.alive_in_player_clan:
                 self.manage_roles.disable()
+                self.debug_button.enable()
             else:
                 self.manage_roles.enable()
+                self.debug_button.enable()
             if (
                 not self.the_cat.status.rank.is_any_apprentice_rank()
                 or not self.the_cat.status.alive_in_player_clan
@@ -2892,9 +2967,37 @@ class ProfileScreen(Screens):
                 self.change_mentor_button.disable()
             else:
                 self.change_mentor_button.enable()
+   
+                
 
         elif self.open_tab == "personal":
-            # Button to trans or cis the cats.
+            # Button to trans or cis the cats. GENDERHERE
+            cissex = ["male","female","intersex"]
+                    # choice(Gender.CISSEX)
+                    # choice(genderqueer_dicts["cissex"])
+                    # 
+            intergender = ["intergender","ultergender","ipsogender"]
+                # choice(Gender.INTERONLY)
+                # choice(genderqueer_dicts["interonly"])
+                # 
+            transfem = ["trans female","trans feminine","honeybee transfem"]
+                # choice(Gender.TRANSFEM)
+                # choice(genderqueer_dicts["transfem"])
+                # 
+            transmasc = ["trans male","trans masculine","coffeebean transmasc"]
+                # choice(Gender.TRANSMASC)
+                # choice(genderqueer_dicts["transmasc"])
+                # 
+            transbinary = transmasc+transfem
+                # choice(Gender.BINARYTRANS)
+                # choice(genderqueer_dicts["transbinary"])
+                # 
+            nbgender = ["nonbinary","genderfluid","genderdoe","genderfaun","genderflux","transneutral","agender","genderqueer","bigender","pangender","multigender","butch","femme","cusper","evenic","isogender","gendervoid","xenogender","cassgender","demigender","demiboy","demigirl","rosboy","azurgirl"]
+                # choice(Gender.ALLENBY)
+                # choice(genderqueer_dicts["nbgender"])
+            allgender= cissex+intergender+transfem+transmasc+nbgender
+                # Gender.ALLGENDER
+
             if self.the_cat.gender == "male" and self.the_cat.genderalign == "male":
                 self.cis_trans_button.set_text(
                     "screens.profile.change_gender_transfemale"
@@ -2905,30 +3008,47 @@ class ProfileScreen(Screens):
                 self.cis_trans_button.set_text(
                     "screens.profile.change_gender_transmale"
                 )
-            elif self.the_cat.genderalign in ["trans female", "trans male"]:
+            # nbify
+            elif self.the_cat.genderalign in transbinary:
                 self.cis_trans_button.set_text(
                     "screens.profile.change_gender_nonbinary"
                 )
-            elif self.the_cat.genderalign not in [
-                "female",
-                "trans female",
-                "male",
-                "trans male",
-                'intersex',
-            ]:
+            # cisification 
+            elif (
+                self.the_cat.genderalign 
+                in nbgender
+                or not allgender
+                ):
                 self.cis_trans_button.set_text("screens.profile.change_gender_cis")
             elif self.the_cat.gender == "male" and self.the_cat.genderalign == "female":
                 self.cis_trans_button.set_text("screens.profile.change_gender_cis")
             elif self.the_cat.gender == "female" and self.the_cat.genderalign == "male":
                 self.cis_trans_button.set_text("screens.profile.change_gender_cis")
+
+            # intersex genders
+                # cis intersex to intergender(s)
+            elif (
+                self.the_cat.gender == "intersex" 
+                and self.the_cat.genderalign == "intersex"
+            ):
+                self.cis_trans_button.set_text(
+                    "screens.profile.change_gender_intergender"
+                )
+                #intergender to transintersex
+            elif(
+                self.the_cat.gender=="intersex"
+                and self.the_cat.genderalign in intergender
+            ):
+                self.cis_trans_button.set_text("screens.profile.change_gender_trans")
+            #catchall
             elif self.the_cat.genderalign:
                 self.cis_trans_button.set_text("screens.profile.change_gender_cis")
             else:
                 self.cis_trans_button.set_text("screens.profile.change_gender_cis")
                 self.cis_trans_button.disable()
             if (
-                    self.the_cat.age not in [CatAge.YOUNG_ADULT, CatAge.ADULT, CatAge.SENIOR_ADULT, CatAge.SENIOR]
-                    or not self.the_cat.status.alive_in_player_clan
+                    # self.the_cat.age not in [CatAge.YOUNG_ADULT, CatAge.ADULT, CatAge.SENIOR_ADULT, CatAge.SENIOR] or 
+                    not self.the_cat.status.alive_in_player_clan
             ):
                 self.predict_offspring_button.disable()
             else:
@@ -3017,6 +3137,9 @@ class ProfileScreen(Screens):
             if self.open_sub_tab == "life events":
                 self.sub_tab_1.disable()
                 self.sub_tab_2.enable()
+                # self.sub_tab_3.enable()
+                self.sub_tab_4.enable()
+
                 self.history_text_box.kill()
                 self.history_text_box = UITextBoxTweaked(
                     self.get_all_history_text(),
@@ -3046,13 +3169,22 @@ class ProfileScreen(Screens):
                     self.no_moons.kill()
                 else:
                     self.show_moons.kill()
+
             elif self.open_sub_tab == "user notes":
                 self.sub_tab_1.enable()
                 self.sub_tab_2.disable()
+                # self.sub_tab_3.enable()
+                self.sub_tab_4.enable()
+
                 if self.history_text_box:
                     self.history_text_box.kill()
                     self.no_moons.kill()
                     self.show_moons.kill()
+                # elif self.bonus_text_box:
+                #     self.bonus_text_box.kill()
+                elif self.debug_text_box:
+                    self.debug_text_box.kill
+
                 if self.save_text:
                     self.save_text.kill()
                 if self.notes_entry:
@@ -3102,6 +3234,78 @@ class ProfileScreen(Screens):
                         line_spacing=1,
                         manager=MANAGER,
                     )
+            # elif self.open_sub_tab == "extra":
+            #     self.sub_tab_1.enable()
+            #     self.sub_tab_2.enable()
+            #     self.sub_tab_3.disable()
+            #     self.sub_tab_4.enable()
+            #     if self.bonus_text_box:
+            #         self.bonus_text_box.kill()
+            #     self.build_extra_info()
+            #     if self.bonus_text_box:
+            #         self.bonus_text_box.set_text(self.extrainfo)
+            #     else:
+            #         self.bonus_text_box = UITextBoxTweaked(
+            #             self.extrainfo,
+            #             ui_scale(pygame.Rect((100, 473), (600, 149))),
+            #             object_id="#text_box_26_horizleft_pad_10_14",
+            #             line_spacing=1,
+            #             manager=MANAGER,
+            #         )
+
+            #     if self.history_text_box:
+            #         self.history_text_box.kill()
+            #         self.no_moons.kill()
+            #         self.show_moons.kill()
+            #     if self.debug_text_box:
+            #         self.debug_text_box.kill
+            #     if self.save_text:
+            #         self.save_text.kill()
+            #     if self.notes_entry:
+            #         self.notes_entry.kill()
+            #     if self.edit_text:
+            #         self.edit_text.kill()
+            #     if self.display_notes:
+            #         self.display_notes.kill()
+            #     if self.help_button:
+            #         self.help_button.kill()
+                
+
+            elif self.open_sub_tab == "debug":
+                self.sub_tab_1.enable()
+                self.sub_tab_2.enable()
+                # self.sub_tab_3.enable()
+                self.sub_tab_4.disable()
+                # if self.debug_text_box:
+                #     self.debug_text_box.kill()
+                self.build_debug_info()
+                if self.debug_text_box:
+                    self.debug_text_box.set_text(self.debuginfo)
+                else:
+                    self.debug_text_box = UITextBoxTweaked(
+                        self.debuginfo,
+                        ui_scale(pygame.Rect((100, 473), (600, 149))),
+                        object_id="#text_box_26_horizleft_pad_10_14",
+                        line_spacing=1,
+                        manager=MANAGER,
+                    )
+
+                if self.history_text_box:
+                    self.history_text_box.kill()
+                    self.no_moons.kill()
+                    self.show_moons.kill()
+                # if self.debug_text_box:
+                #     self.debug_text_box.kill
+                # if self.save_text:
+                #     self.save_text.kill()
+                # if self.notes_entry:
+                #     self.notes_entry.kill()
+                # if self.edit_text:
+                #     self.edit_text.kill()
+                # if self.display_notes:
+                #     self.display_notes.kill()
+                # if self.help_button:
+                #     self.help_button.kill()
 
         # Conditions Tab
         elif self.open_tab == "conditions":
@@ -3120,6 +3324,7 @@ class ProfileScreen(Screens):
             self.change_adoptive_parent_button.kill()
         elif self.open_tab == "roles":
             self.manage_roles.kill()
+            self.debug_button.kill()
             self.change_mentor_button.kill()
         elif self.open_tab == "personal":
             self.change_name_button.kill()
@@ -3159,6 +3364,12 @@ class ProfileScreen(Screens):
                     self.history_text_box.kill()
                 self.show_moons.kill()
                 self.no_moons.kill()
+            # elif self.open_sub_tab == "extra":
+            #     if self.bonus_text_box:
+            #         self.bonus_text_box.kill()
+            elif self.open_sub_tab == "debug":
+                if self.debug_text_box:
+                    self.debug_text_box.kill()
 
         elif self.open_tab == "conditions":
             self.left_conditions_arrow.kill()

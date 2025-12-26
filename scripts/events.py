@@ -914,7 +914,7 @@ class Events:
                 CatRank.MESSENGER_APPRENTICE,
                 CatRank.STORYTELLER_APPRENTICE
             ]:
-                if x.moons >= 15:
+                if x.moons >= 12:
                     if x.status.rank == CatRank.MEDICINE_APPRENTICE:
                         self.ceremony(x, CatRank.MEDICINE_CAT)
                     elif x.status.rank == CatRank.MEDIATOR_APPRENTICE:
@@ -931,8 +931,11 @@ class Events:
                         self.ceremony(x, CatRank.STORYTELLER)
                     else:
                         self.ceremony(x, CatRank.WARRIOR)
-                elif not x.status.rank.is_any_apprentice_rank() and x.moons >= 6:
-                    self.ceremony(x, CatRank.APPRENTICE)
+                elif get_clan_setting("brokenstar") is True:
+                    if not x.status.rank.is_any_apprentice_rank() and x.moons >= 3:
+                        self.ceremony(x, CatRank.APPRENTICE)
+                    elif not x.status.rank.is_any_apprentice_rank() and x.moons >= 6:
+                        self.ceremony(x, CatRank.APPRENTICE)
 
     def handle_fading(self, cat):
         """

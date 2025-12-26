@@ -28,27 +28,27 @@
         "disasters": [
             "Allow mass extinction events",
             "This may result in up to 1/3rd of your Clan dying in one moon.",
-            false
+            true
         ],
         "showxp": [
             "Show exact XP and nutrition status",
             "Will turn 'experience: proficient' into 'experience: proficient (151)'; and 'nutrition: full' into 'nutrition: full (70)'.",
-            false
+            true
         ],
         "random med cat": [
             "Allow medicine cats to be randomly selected on patrol",
             "Medicine cats can be selected with the patrol buttons +1, +3,+6.",
-            true
+            false
         ],
         "fading": [
             "Allow dead cats to fade away",
-            "After 202 moons, dead cats will be unloaded, and saved separately. No family relations will be lost.",
+            "After 50 moons, dead cats will be unloaded, and saved separately. No family relations will be lost.",
             true
         ],
         "save_faded_copy": [
             "Save a complete copy of faded cats information",
             "A complete copy of faded cat save info will be saved in plain-text.",
-            false
+            true
         ],
         "backgrounds": [
             "Enable Clan page background",
@@ -65,11 +65,16 @@
         "deputy": [
             "Allow leaders to automatically choose a new deputy",
             "The Warrior Code rules will be taken into account when choosing a deputy.",
-            false
+            true
         ],
         "12_moon_graduation": [
             "Disable experience-based apprentice graduation",
             "All apprentices will graduate at 12 moons.",
+            false
+        ],
+        "brokenstar":[
+            "3 moon apprenticeship",
+            "all kits become apprentices at 3 moons.",
             false
         ],
         "retirement": [
@@ -80,49 +85,49 @@
         "higher_disabled_med_rates": [
             "Higher non-warrior odds for cats with permanent conditions",
             "Cats with permanent conditions will be 2 times more likely to become a non-warrior apprentice when they hit 6 moons old. This does not effect the chance to become a mediator later in life, if the setting is on.",
-            false
+            true
         ],
         "become_mediator": [
             "Allow warriors and elders to choose to become mediators",
             "Warriors and elders will have a chance to become mediators upon timeskip.",
-            false
+            true
         ],
         "become_messenger": [
             "Allow warriors and elders to choose to become messengers",
             "Warriors and elders will have a chance to become messengers upon timeskip.",
-            false
+            true
         ],
         "become_denkeeper": [
             "Allow warriors and elders to choose to become denkeepers",
             "Warriors and elders will have a chance to become denkeepers upon timeskip.",
-            false
+            true
         ],
         "become_caretaker": [
             "Allow warriors and elders to choose to become caretakers",
             "Warriors and elders will have a chance to become caretakers upon timeskip.",
-            false
+            true
         ],
         "become_gardener": [
             "Allow warriors and elders to choose to become gardeners",
             "Warriors and elders will have a chance to become gardeners upon timeskip.",
-            false
+            true
         ],
         "become_storyteller": [
             "Allow warriors and elders to choose to become storytellers",
             "Warriors and elders will have a chance to become storytellers upon timeskip.",
-            false
+            true
         ],
         "plural names": [
             "Allow plural cats to choose collective names",
             "Adult plural cats will have a chance to choose a collective name upon timeskip.",
-            false
+            true
         ]
     },
     "relation": {
         "affair": [
             "Allow cats to breed with cats that aren't their mates",
             "This will allow mated and unmated cats to have kits with other cats they are not mated with. This includes, but is not limited to, affairs/cheating.",
-            false
+            true
         ],
         "same sex birth": [
             "Pregnancy ignores biology",
@@ -155,7 +160,7 @@
         "single parentage": [
             "Allow cats to have kittens with an unknown second parent",
             "Allow cats to have kittens with an unknown second biological parent. The cat will be listed as the only biological parent.",
-            false
+            true
         ],
         "romantic with former mentor": [
             "Allow romantic interactions with former mentors",
@@ -165,7 +170,7 @@
         "first cousin mates": [
             "Allow first cousins to be mates and have romantic interactions",
             "Allows cats with the same grandparents but different parents to become mates.",
-            false
+            true
         ],
         "second cousin mates": [
             "Allow second cousins to be mates and have romantic interactions",
@@ -175,14 +180,14 @@
 		"pregnancy turmoil": [
 			"Allow negative pregnancy events",
 			"Allows cats to have events like postpartum and false pregnancies.",
-			false
+			true
 		]
     },
     "freshkill_tactics":{
         "by-status":[
             "by-status",
             "The Clan will be fed according their status and within the status by age.",
-            true
+            false
         ],
         "younger first":[
             "younger first",
@@ -192,7 +197,7 @@
         "less nutrition first":[
             "less nutrition first",
             "First the cats with the lowest nutrition will be fed, afterwards the Clan will be fed according to their status.",
-            false
+            true
         ],
         "hunter first":[
             "hunter first",
@@ -219,14 +224,14 @@
         "business as usual":[
             "Business As Usual",
             "The Clan has no specific focus and won't get any bonuses.",
-            true,
+            false,
             "usual_focus",
             "#usual_focus_button"
         ],
         "hunting":[
             "Feeding the Clan",
             "The Clan will focus on hunting, each working warrior (including deputy and leader) and each working apprentice will gather additional prey on each moonskip.",
-            false,
+            true,
             "hunting_focus",
             "#hunting_focus_button"
         ],
@@ -300,15 +305,16 @@
         "favourite sub tab": [
             null,
             "life events",
-            "user notes"
+            "user notes",
+            "debug"
         ],
         "den labels": [
             true,
             false
         ],
         "show fav": [
-            false,
-            true
+            true,
+            false
         ]
     }
 }

@@ -304,7 +304,10 @@ class Status:
         Returns True if the cat is currently part of the player clan.
         """
         return self.group == CatGroup.PLAYER_CLAN
-
+    # @property
+    # def dead_cat(self) ->bool:
+    #     """returns true if the cat is dead"""
+    #     return self.group.is_afterlife()
     @property
     def is_outsider(self) -> bool:
         """
@@ -440,6 +443,13 @@ class Status:
         self.standing_history.append(
             {"group": group, "standing": [new_standing], "near": True}
         )
+    def become_kittypet(self, new_social_status: CatSocial = CatSocial.KITTYPET):
+        rank = CatRank(new_social_status)
+        self._modify_group(rank,standing_with_past_group=CatStanding.LEFT)
+    
+    def become_loner(self, new_social_status: CatSocial = CatSocial.LONER):
+        rank = CatRank(new_social_status)
+        self._modify_group(rank,standing_with_past_group=CatStanding.LEFT)
 
     def become_lost(self, new_social_status: CatSocial = CatSocial.KITTYPET):
         """

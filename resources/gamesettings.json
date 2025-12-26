@@ -19,12 +19,17 @@
         "warriorified names": [
             "Use warriors names for the new conditions",
             "IE: use starwalker instead of autism.",
+            false
+        ],
+        "warriorified gender":[
+            "Use more warrior-ish/cat-ish gendered terms",
+            "IE: molly instead of she-cat, tom instead of male/man, sam instead of nonbinary, jack instead of intersex",
             true
         ],
         "vit tint": [
             "Tinted vitiligo",
             "If enabled, cats' vitiligo will be tinted with their white patch tint(s).",
-            false
+            true
         ],
         "multiple tints": [
             "Stacking tints",
@@ -34,12 +39,17 @@
         "double torties": [
             "\"Double\" torties",
             "If enabled, cats can spawn with secondary tortie patches.",
-            false
+            true
         ],
         "dark mode": [
             "Dark mode",
             "Camp backgrounds will match with the mode: nighttime for dark mode and daytime for light mode.",
-            false
+            true
+        ],
+        "flipped camp":[
+            "Flipped camp mode",
+            "Camp backgrounds will be daytime for dark mode, and nighttime for light mode.",
+            true
         ],
         "fullscreen scaling": [
             "Ignore fullscreen scaling rules",
@@ -49,7 +59,7 @@
         "no sprite antialiasing": [
             "Disable sprite antialiasing",
             "If enabled, sprites and patrol art will no longer be antialiased (\"blurry\"/\"smooth\") when in fullscreen.",
-            false
+            true
         ],
         "custom cursor": [
             "Custom cursor",
@@ -69,7 +79,7 @@
         "gore": [
             "Allow mild gore and blood in patrol artwork",
             "Mild gore and blood will be allowed in the artwork displayed alongside patrols.",
-            false
+            true
         ],
         "discord": [
             "Enable Discord integration",
@@ -79,12 +89,12 @@
         "check_for_updates": [
             "Check for updates",
             "Automatically checks for updates on startup",
-            true
+            false
         ],
         "show_changelog": [
             "Display changelog on startup",
             "Shows the changelog of the latest release on startup",
-            true
+            false
         ],
         "special_dates": [
             "Allow special date events",
@@ -106,42 +116,42 @@
         "allow_triggers": [
             "Allow triggering content.",
             "If this setting is disabled, all other trigger toggles will be ignored. Changing this setting mid-game may cause certain conditions to crash.",
-            false
+            true
         ],
         "misdiagnosis": [
             "Allow cats to be incorrectly diagnosed.",
             "When enabled, cats can be given the wrong diagnosis. The correct diagnosis is still visible in the cat's conditions file.",
-            false
+            true
         ],
         "iatrogenic_disorders": [
             "Allow cats to have conditions induced by medicical interference.",
             "This toggle requires misdiagnosis to be enabled.",
-            false
+            true
         ],
         "eating_disorders": [
             "Allow content with eating disorders",
             "This toggle enables cats to experience eating disorders",
-            false
+            true
         ],
         "self_harm": [
             "Allow content with non-suicidal self harm.",
             "This toggle enables cats to experience self harm. This does not include suicide or attempts.",
-            false
+            true
         ],
         "psychosis": [
             "Allow content with psychosis.",
             "This toggle enables cats to experience psychotic symptoms such as paranoia, delusions, and intense hallucinations.",
-            false
+            true
         ],
         "dissociation": [
             "Allow content with dissociation from trauma.",
             "This toggle enables cats to experience dissociation from trauma. This does not include mild dissociative symptoms from attention and memory disorders.",
-            false
+            true
         ],
         "intrusive_thoughts": [
             "Allow content with intrusive thoughts.",
             "This toggle enables to experience intrusive thoughts such as depressive hopelessness and homidical ideation.",
-            false
+            true
         ],
         "intrusive_thoughts_TWO_woaw": [
             "Allow content with night dirtmaking and nest wetting",
