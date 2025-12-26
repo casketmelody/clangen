@@ -918,7 +918,7 @@ class ProfileScreen(Screens):
     def generate_column1(self, the_cat):
         """Generate the left column information"""
         output = ""
-        simpleprofile = game_setting_get("less info")
+        simpleprofile = get_clan_setting("less info")
         newline = "\n"
 
         if simpleprofile is True:
@@ -926,8 +926,7 @@ class ProfileScreen(Screens):
         elif simpleprofile is False: 
             IDoutput = "ID: " + str(the_cat.ID)
             output += IDoutput
-
-        output += "\n"
+            output += "\n"
 
         # SEX/GENDER
         # if game_setting_get("warriorified gender") is True:
@@ -1649,7 +1648,7 @@ class ProfileScreen(Screens):
     def build_debug_info(self):
         #everybody say thank u genemod for the inspo i love u genemod
         self.debuginfo = ""
-        simpleprofile = game_setting_get("less info")
+        simpleprofile = get_clan_setting("less info")
         sexuality = Cat.display_gendered_attraction(self.the_cat.sexuality["gender"])
         newline = "\n"
         blank = " "
@@ -1661,10 +1660,10 @@ class ProfileScreen(Screens):
         self.debuginfo += f"{sexuality}" + newline
 
         # profile condenser
-        if simpleprofile is True:
+        if simpleprofile is False:
             self.debuginfo += ""
 
-        elif simpleprofile is False:
+        elif simpleprofile is True:
             # other debugs
             skill = self.the_cat.skills
             phystitle = newline + "physique" + newline
@@ -1702,7 +1701,9 @@ class ProfileScreen(Screens):
                         self.debuginfo += gen_trait + ", "  # In case the trait is not found in the dictionary
                 self.debuginfo = self.debuginfo.rstrip(", ")  # Remove the trailing comma and space
 
-            spDebug = skill + phystitle + skin + pelt + tortie + fur + height + build + gen_trait
+
+            spDebug = skill + phystitle + skin + pelt + tortie + fur + height + build + gen_trait + newline
+
             self.debuginfo += spDebug
         
         

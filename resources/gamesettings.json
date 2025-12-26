@@ -26,11 +26,6 @@
             "IE: molly instead of she-cat, tom instead of male/man, sam instead of nonbinary, jack instead of intersex",
             true
         ],
-        "less info":[
-            "simple cat profiles",
-            "hide extra cat info in the history tab instead of dumping it all in the profile",
-            true
-        ],
         "vit tint": [
             "Tinted vitiligo",
             "If enabled, cats' vitiligo will be tinted with their white patch tint(s).",
