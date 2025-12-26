@@ -1630,63 +1630,69 @@ class ProfileScreen(Screens):
         self.update_disabled_buttons_and_text()
 
     def build_debug_info(self):
+        #everybody say thank u genemod for the inspo i love u genemod
         self.debuginfo = ""
+        simpleprofile = game_setting_get("less cat info") is True
         sexuality = Cat.display_gendered_attraction(self.the_cat.sexuality["gender"])
         newline = "\n"
         blank = " "
 
-        # gen
+        # gen COMEBACK
         self.debuginfo += f"ID: {self.the_cat.ID}" + newline
         self.debuginfo += f"facets: lawfulness ({self.the_cat.personality.lawfulness}), sociability ({self.the_cat.personality.sociability}), aggression ({self.the_cat.personality.aggression}), stability ({self.the_cat.personality.stability})" + newline + newline
         self.debuginfo += f"sex: {self.the_cat.gender}" + newline
         self.debuginfo += f"{sexuality}" + newline
+        
 
-        # physique
-        self.debuginfo += newline + "physique" + newline
+        # profile condenser
+        if simpleprofile:
+            # physique
+            self.debuginfo += newline + "physique" + newline
 
-        if self.the_cat.pelt.scars:
-            self.debuginfo += f"scars: " + self.the_cat.pelt.scars + newline
+            if self.the_cat.pelt.scars:
+                self.debuginfo += f"scars: " + self.the_cat.pelt.scars + newline
 
-        self.debuginfo += "skin: " + self.the_cat.describe_skin() + f" ({self.the_cat.pelt.skin.lower()})"+ newline
-        self.debuginfo += "pelt: " + self.the_cat.pelt.name.lower() + f" {self.the_cat.pelt.colour.lower()}" + newline
-        if self.the_cat.pelt.tortiebase is not None:
-            self.debuginfo += ("tortie: " + 
-                               self.the_cat.pelt.tortiebase.lower() + blank +
-                               self.the_cat.pelt.tortiecolour.lower() + blank +
-                               self.the_cat.pelt.tortiepattern.lower() + blank +
-                               newline + newline
-            )
-        # self.debuginfo += "fur length: " + self.the_cat.pelt.length + newline
-        self.debuginfo += "fur texture: " + self.the_cat.pelt.fur_texture + newline + newline
-        self.debuginfo += "height: " + self.the_cat.pelt.height + newline
-        self.debuginfo += "build: " + self.the_cat.pelt.build + newline
+            self.debuginfo += "skin: " + self.the_cat.describe_skin() + f" ({self.the_cat.pelt.skin.lower()})"+ newline
+            self.debuginfo += "pelt: " + self.the_cat.pelt.name.lower() + f" {self.the_cat.pelt.colour.lower()}" + newline
+            if self.the_cat.pelt.tortiebase is not None:
+                self.debuginfo += ("tortie: " + 
+                                self.the_cat.pelt.tortiebase.lower() + blank +
+                                self.the_cat.pelt.tortiecolour.lower() + blank +
+                                self.the_cat.pelt.tortiepattern.lower() + blank +
+                                newline + newline
+                )
+            # self.debuginfo += "fur length: " + self.the_cat.pelt.length + newline
+            self.debuginfo += "fur texture: " + self.the_cat.pelt.fur_texture + newline + newline
+            self.debuginfo += "height: " + self.the_cat.pelt.height + newline
+            self.debuginfo += "build: " + self.the_cat.pelt.build + newline
 
-        # TRAITS
-        trait_descriptions = {'TEETHUPPER': 'long upper fangs', 'TEETHSABRE': 'sabre teeth', 'TEETHUNDERBITE': 'underbite', 'TEETHOVERBITE': 'overbite', 'TEETHHANG': 'a hanging fang', 'TEETHJAGGED': 'uneven teeth', 'TEETHTUSK': 'tusked fangs', 'TEETHGONE': 'missing a tooth', 'TEETHCHIPPED': 'a chipped tooth', 'EARSMALL': 'small ears', 'EARBIG': 'big ears', 'EARTALL': 'tall ears', 'EARPANTHER': 'rounded ears', 'EARWIDE': 'wide-set ears', 'EARFLUFFY': 'fluffy ears', 'FOLDBOTH': 'folded ears', 'FOLDONE': 'one folded ear', 'EARCURL': 'curled ears', 'EARDROOPY': 'droopy ears', 'EARRABBIT': 'rabbit-like ears', 'HEADFORELOCK': 'forelock', 'HEADCOWLICK': 'cowlick', 'HEADMOHAWK': 'mohawk', 'HEADTUFT': 'tufted head fur', 'HEADEMO': 'emo-style head fur', 'HEADJOWLS': 'prominent jowls', 'CHEEKLONG': 'long cheek fur', 'CHEEKPOINTED': 'pointed cheek fur', 'CHEEKFLUFF': 'fluffy cheeks', 'CHEEKCURL': 'curled cheek fur', 'MANESILKY': 'silky mane', 'MANEFLUFFY': 'fluffy mane', 'MANERUFF': 'ruff', 'MANEHORSE': 'horse-like mane', 'MANELION': 'lion-like mane', 'MANEBRAIDED': 'braided mane', 'MANECOBRA': 'cobra-like mane', 'FURWAVY': 'wavy fur', 'FURCURLY': 'curly fur', 'FURPATCHY': 'patchy fur', 'FURKINK': 'kinked fur', 'FURSHAGGY': 'shaggy fur', 'MUZZLESHORT': 'short muzzle', 'MUZZLEBROAD': 'broad muzzle', 'MUZZLELONG': 'long muzzle', 'BODYBROAD': 'broad shoulders', 'BODYWIRY': 'wiry', 'BODYLITHE': 'lithe', 'BODYSKINNY': 'skinny', 'BODYBUFF': 'muscular', 'BODYCOMPACT': 'compact', 'BODYHUNCHED': 'hunched', 'BODYHEFTY': 'hefty', 'BODYBURLY': 'burly', 'BODYBULKY': 'bulky', 'BODYPLUMP': 'plump', 'BODYBRAWNY': 'brawny', 'BODYSTOUT': 'stout', 'BODYBROAD': 'broad', 'BODYCHUBBY': 'chubby', 'BODYFAT': 'fat', 'BODYSTOCKY': 'stocky', 'BODYCHUNKY': 'chunky', 'BODYBIGBONED': 'big-boned', 'SIZETINY': 'tiny', 'SIZESMALL': 'small', 'SIZESHORT': 'short', 'SIZETALL': 'tall', 'SIZELARGE': 'large', 'SIZEHUGE': 'huge', 'EARTUFTS': 'ear tufts', 'POLYDACTYL': 'polydactyl', 'LASHESUPPER': 'upper lashes', 'LASHESLOWER': 'lower lashes', 'WHISKERSLONG': 'long whiskers', 'TAILCROOKED': 'crooked tail', 'TAILLONG': 'long tail', 'TAILFEATHER': 'feathered tail', 'TAILCURL': 'curled tail', 'TAILTUFT': 'tufted tail', 'TAILFORKED': 'forked tail', 'CLAWSLONG': 'unusually long claws', 'TAILFOX': 'fox-like tail', 'BACKFLUFF': 'fluffy back', 'BACKRIDGE': 'fur ridge on back', 'SHOULDERTUFT': 'tufted shoulders', 'LEGTUFT': 'tufted legs', 'LARGEPAWS': 'large paws', 'SMALLPAWS': 'small paws', 'CLAWLESS': 'clawless', 'CLAWSSHORT': 'unusually short claws', 'PAWTUFT': 'tufted paws', 'BIGEYES': 'big eyes', 'SMALLEYES': 'small eyes', 'BIGNOSE': 'big nose', 'HEARTSHAPEDNOSE': 'heart-shaped nose', 'LONGLEGS': 'long-legged', 'SHORTLEGS': 'short-legged', 'CROSSEYED': 'cross-eyed', 'LAZYEYE': 'lazy eye', 'OVERGROWNTONGUE': 'overgrown tongue', 'LONGCHINFUR': 'long chin fur', 'SHORTCHINFUR': 'short chin fur', 'LONGMUZZLEFUR': 'long muzzle fur', 'LONGINNEREARFUR': 'long inner ear fur', 'WEBBEDPAWS': 'webbed paws', 'MISSINGTOE': 'missing a toe', 'UNDERSIZEDJAW': 'undersized jaw', 'OVERSIZED JAW': 'oversized jaw', 'HEADMULLET': 'mullet', 'FURBARBELS': 'fur barbels'
-        }
+            # TRAITS
+            trait_descriptions = {'TEETHUPPER': 'long upper fangs', 'TEETHSABRE': 'sabre teeth', 'TEETHUNDERBITE': 'underbite', 'TEETHOVERBITE': 'overbite', 'TEETHHANG': 'a hanging fang', 'TEETHJAGGED': 'uneven teeth', 'TEETHTUSK': 'tusked fangs', 'TEETHGONE': 'missing a tooth', 'TEETHCHIPPED': 'a chipped tooth', 'EARSMALL': 'small ears', 'EARBIG': 'big ears', 'EARTALL': 'tall ears', 'EARPANTHER': 'rounded ears', 'EARWIDE': 'wide-set ears', 'EARFLUFFY': 'fluffy ears', 'FOLDBOTH': 'folded ears', 'FOLDONE': 'one folded ear', 'EARCURL': 'curled ears', 'EARDROOPY': 'droopy ears', 'EARRABBIT': 'rabbit-like ears', 'HEADFORELOCK': 'forelock', 'HEADCOWLICK': 'cowlick', 'HEADMOHAWK': 'mohawk', 'HEADTUFT': 'tufted head fur', 'HEADEMO': 'emo-style head fur', 'HEADJOWLS': 'prominent jowls', 'CHEEKLONG': 'long cheek fur', 'CHEEKPOINTED': 'pointed cheek fur', 'CHEEKFLUFF': 'fluffy cheeks', 'CHEEKCURL': 'curled cheek fur', 'MANESILKY': 'silky mane', 'MANEFLUFFY': 'fluffy mane', 'MANERUFF': 'ruff', 'MANEHORSE': 'horse-like mane', 'MANELION': 'lion-like mane', 'MANEBRAIDED': 'braided mane', 'MANECOBRA': 'cobra-like mane', 'FURWAVY': 'wavy fur', 'FURCURLY': 'curly fur', 'FURPATCHY': 'patchy fur', 'FURKINK': 'kinked fur', 'FURSHAGGY': 'shaggy fur', 'MUZZLESHORT': 'short muzzle', 'MUZZLEBROAD': 'broad muzzle', 'MUZZLELONG': 'long muzzle', 'BODYBROAD': 'broad shoulders', 'BODYWIRY': 'wiry', 'BODYLITHE': 'lithe', 'BODYSKINNY': 'skinny', 'BODYBUFF': 'muscular', 'BODYCOMPACT': 'compact', 'BODYHUNCHED': 'hunched', 'BODYHEFTY': 'hefty', 'BODYBURLY': 'burly', 'BODYBULKY': 'bulky', 'BODYPLUMP': 'plump', 'BODYBRAWNY': 'brawny', 'BODYSTOUT': 'stout', 'BODYBROAD': 'broad', 'BODYCHUBBY': 'chubby', 'BODYFAT': 'fat', 'BODYSTOCKY': 'stocky', 'BODYCHUNKY': 'chunky', 'BODYBIGBONED': 'big-boned', 'SIZETINY': 'tiny', 'SIZESMALL': 'small', 'SIZESHORT': 'short', 'SIZETALL': 'tall', 'SIZELARGE': 'large', 'SIZEHUGE': 'huge', 'EARTUFTS': 'ear tufts', 'POLYDACTYL': 'polydactyl', 'LASHESUPPER': 'upper lashes', 'LASHESLOWER': 'lower lashes', 'WHISKERSLONG': 'long whiskers', 'TAILCROOKED': 'crooked tail', 'TAILLONG': 'long tail', 'TAILFEATHER': 'feathered tail', 'TAILCURL': 'curled tail', 'TAILTUFT': 'tufted tail', 'TAILFORKED': 'forked tail', 'CLAWSLONG': 'unusually long claws', 'TAILFOX': 'fox-like tail', 'BACKFLUFF': 'fluffy back', 'BACKRIDGE': 'fur ridge on back', 'SHOULDERTUFT': 'tufted shoulders', 'LEGTUFT': 'tufted legs', 'LARGEPAWS': 'large paws', 'SMALLPAWS': 'small paws', 'CLAWLESS': 'clawless', 'CLAWSSHORT': 'unusually short claws', 'PAWTUFT': 'tufted paws', 'BIGEYES': 'big eyes', 'SMALLEYES': 'small eyes', 'BIGNOSE': 'big nose', 'HEARTSHAPEDNOSE': 'heart-shaped nose', 'LONGLEGS': 'long-legged', 'SHORTLEGS': 'short-legged', 'CROSSEYED': 'cross-eyed', 'LAZYEYE': 'lazy eye', 'OVERGROWNTONGUE': 'overgrown tongue', 'LONGCHINFUR': 'long chin fur', 'SHORTCHINFUR': 'short chin fur', 'LONGMUZZLEFUR': 'long muzzle fur', 'LONGINNEREARFUR': 'long inner ear fur', 'WEBBEDPAWS': 'webbed paws', 'MISSINGTOE': 'missing a toe', 'UNDERSIZEDJAW': 'undersized jaw', 'OVERSIZED JAW': 'oversized jaw', 'HEADMULLET': 'mullet', 'FURBARBELS': 'fur barbels'
+            }
 
-        trait_list = []
-        if self.the_cat.pelt.physical_trait_1:
-            trait_list.append(self.the_cat.pelt.physical_trait_1)
-            if self.the_cat.pelt.physical_trait_2:
-                trait_list.append(self.the_cat.pelt.physical_trait_2)
-                if self.the_cat.pelt.physical_trait_3:
-                    trait_list.append(self.the_cat.pelt.physical_trait_3)
-                    if self.the_cat.pelt.physical_trait_4:
-                        trait_list.append(self.the_cat.pelt.physical_trait_4)
+            trait_list = []
+            if self.the_cat.pelt.physical_trait_1:
+                trait_list.append(self.the_cat.pelt.physical_trait_1)
+                if self.the_cat.pelt.physical_trait_2:
+                    trait_list.append(self.the_cat.pelt.physical_trait_2)
+                    if self.the_cat.pelt.physical_trait_3:
+                        trait_list.append(self.the_cat.pelt.physical_trait_3)
+                        if self.the_cat.pelt.physical_trait_4:
+                            trait_list.append(self.the_cat.pelt.physical_trait_4)
 
-        if trait_list:
-            self.debuginfo += "\n"
-            self.debuginfo += "traits: "
-            for trait in trait_list:
-                if trait in trait_descriptions:
-                    self.debuginfo += trait_descriptions[trait] + ", "
-                else:
-                    self.debuginfo += trait + ", "  # In case the trait is not found in the dictionary
-            self.debuginfo = self.debuginfo.rstrip(", ")  # Remove the trailing comma and space
+            if trait_list:
+                self.debuginfo += "\n"
+                self.debuginfo += "traits: "
+                for trait in trait_list:
+                    if trait in trait_descriptions:
+                        self.debuginfo += trait_descriptions[trait] + ", "
+                    else:
+                        self.debuginfo += trait + ", "  # In case the trait is not found in the dictionary
+                self.debuginfo = self.debuginfo.rstrip(", ")  # Remove the trailing comma and space
+        else: 
+            self.debuginfo += f"Attracted to: {self.the_cat.sexuality["gender"]}\n"
 
-        #COMEBACK
-        # self.debuginfo += f"Attracted to: {self.the_cat.sexuality["gender"]}\n"
+        
         
     def toggle_extra_tab(self):
         """Opens the extra info tab"""
@@ -2842,8 +2848,8 @@ class ProfileScreen(Screens):
                 anchors={"top_target": self.modify_orientation_button},
             )
             if (
-                    self.the_cat.age not in [CatAge.YOUNG_ADULT, CatAge.ADULT, CatAge.SENIOR_ADULT, CatAge.SENIOR]
-                    or not self.the_cat.status.alive_in_player_clan
+                    # self.the_cat.age not in [CatAge.YOUNG_ADULT, CatAge.ADULT, CatAge.SENIOR_ADULT, CatAge.SENIOR] or
+                    not self.the_cat.status.alive_in_player_clan
             ):
                 self.predict_offspring_button.disable()
             else:
@@ -2937,9 +2943,8 @@ class ProfileScreen(Screens):
                 self.change_adoptive_parent_button.enable()
 
             if (
-                self.the_cat.age
-                not in ["young adult", "adult", "senior adult", "senior"]
-                or not self.the_cat.status.alive_in_player_clan
+                # self.the_cat.age not in ["young adult", "adult", "senior adult", "senior"] or 
+                not self.the_cat.status.alive_in_player_clan
             ):
                 self.choose_mate_button.disable()
             else:

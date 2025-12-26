@@ -22,8 +22,13 @@
             false
         ],
         "warriorified gender":[
-            "Use more warrior-ish/cat-ish gendered terms",
+            "Use more warrior-ish/cat-ish gendered terms (non functional atm)",
             "IE: molly instead of she-cat, tom instead of male/man, sam instead of nonbinary, jack instead of intersex",
+            true
+        ],
+        "less cat info":[
+            "simple cat profiles",
+            "hide extra cat info in the history tab instead of dumping it all in the profile",
             true
         ],
         "vit tint": [
