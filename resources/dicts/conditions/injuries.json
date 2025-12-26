@@ -2196,8 +2196,8 @@
         "severity": "major",
         "medicine_duration": 3,
         "mortality": {
-            "kitten": 0,
-            "adolescent": 0,
+            "kitten": 20,
+            "adolescent": 35,
             "young adult": 40,
             "adult": 40,
             "senior adult": 30,

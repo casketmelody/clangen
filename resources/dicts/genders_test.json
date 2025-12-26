@@ -1,0 +1,140 @@
+{
+    "interonly": [
+        "intergender",
+        "ultergender",
+        "ipsogender"
+    ],
+    "cissex":[
+            "male",
+            "female",
+            "intersex"
+        ],
+    "nbgender":{
+            "nbFluid":[
+                "genderfluid",
+                "genderflux",
+                "genderflor"
+            ],
+            "nbFem":[
+                "femme",
+                "azurgirl",
+                "demigirl",
+                "genderdoe",
+                "honeybee transfem"
+            ],
+            "nbMasc":[
+                "butch",
+                "rosboy",
+                "demiboy",
+                "genderfaun",
+                "coffeebean transmasc"
+            ],
+            "nbNeu":[
+                "nonbinary",
+                "transneutral",
+                "agender",
+                "neutrois",
+                "gendervoid",
+                "demigender"
+            ],
+            "nbMulti":[
+                "bigender",
+                "pangender",
+                "multigender",
+                "polygender",
+                "transfemmasc",
+                "transmascfem",
+                "transfemmascneu"
+            ],
+            "nbMisc":[
+                "genderqueer",
+                "cusper",
+                "evenic",
+                "isogender",
+                "xenogender",
+                "cassgender",
+                "transxenic"
+            ]
+        },
+    "allPerigender":{
+        "transbinary":{
+            "transmasc":[
+                "trans male",
+                "trans masculine"
+            ],
+            "transfem":[
+                "trans female",
+                "trans feminine"
+            ]
+        }
+        
+    },
+    "byCategory":{
+        "BC-masc":[
+            "male",
+            "trans male",
+            "trans masculine",
+            "butch",
+            "rosboy",
+            "demiboy",
+            "genderfaun",
+            "coffeebean transmasc",
+            "bigender",
+            "pangender",
+            "multigender",
+            "polygender",
+            "transfemmasc",
+            "transmascfem",
+            "transfemmascneu",
+            "genderqueer"
+        ],
+        "BC-fem":[
+            "female",
+            "trans female",
+            "trans feminine",
+            "femme",
+            "azurgirl",
+            "demigirl",
+            "genderdoe",
+            "honeybee transfem",
+            "bigender",
+            "pangender",
+            "multigender",
+            "polygender",
+            "transfemmasc",
+            "transmascfem",
+            "transfemmascneu",
+            "genderqueer"
+        ],
+        "BC-neu":[
+            "intersex",
+            "intergender",
+            "ultergender",
+            "ipsogender",
+            "genderfluid",
+            "genderflux",
+            "genderflor",
+            "nonbinary",
+            "transneutral",
+            "agender",
+            "neutrois",
+            "gendervoid",
+            "demigender",
+            "bigender",
+            "pangender",
+            "multigender",
+            "polygender",
+            "transfemmasc",
+            "transmascfem",
+            "transfemmascneu",
+            "genderqueer",
+            "cusper",
+            "evenic",
+            "isogender",
+            "xenogender",
+            "cassgender",
+            "transxenic"
+        ]
+    }
+}
+
