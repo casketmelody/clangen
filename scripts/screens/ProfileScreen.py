@@ -918,11 +918,15 @@ class ProfileScreen(Screens):
     def generate_column1(self, the_cat):
         """Generate the left column information"""
         output = ""
-
-        # # ID
-        # output += "ID: " + str(the_cat.ID)
-        # # NEWLINE ----------
-        # output += "\n"
+        simpleprofile = game_setting_get("less cat info") is True
+        newline = "\n"
+        
+        if simpleprofile:
+            output += ""
+        else: 
+            output += "ID: " + str(the_cat.ID)
+            
+        output += "\n"
 
         # SEX/GENDER
         # if game_setting_get("warriorified gender") is True:
@@ -942,7 +946,7 @@ class ProfileScreen(Screens):
             output += i18n.t(f"general.{the_cat.age.value}", count=1)
         # NEWLINE ----------
         output += "\n"
-#COMEBACK
+
         # EYE COLOR
         if the_cat.age == CatAge.NEWBORN:
             output += "???"
@@ -953,9 +957,23 @@ class ProfileScreen(Screens):
         # NEWLINE ----------
         output += "\n"
 
-        output += "fur length: " + self.the_cat.pelt.length
-
-        # NEWLINE ----------
+        if simpleprofile:
+            output += ""
+        else:
+                # SKIN COLOR
+            output += "skin: " + str(the_cat.describe_skin()) + newline
+                # PELT TYPE
+            output += "pelt: " + the_cat.pelt.name.lower() + newline
+                # PELT LENGTH
+            output += "fur length: " + the_cat.pelt.length + newline
+                # FUR TEXTURE
+            output += "fur texture: " + the_cat.pelt.fur_texture + newline
+                # HEIGHT
+            output += "height: " + the_cat.pelt.height + newline
+                # BUILD
+            output += "build: " + the_cat.pelt.build + newline
+                # FUR LENGTH
+            output += "fur length: " + self.the_cat.pelt.length + newline
 
         # ACCESSORY
         if the_cat.pelt.accessory:
@@ -1632,7 +1650,7 @@ class ProfileScreen(Screens):
     def build_debug_info(self):
         #everybody say thank u genemod for the inspo i love u genemod
         self.debuginfo = ""
-        simpleprofile = game_setting_get("less cat info") is True
+        simpleprofile = game_setting_get("less cat info")
         sexuality = Cat.display_gendered_attraction(self.the_cat.sexuality["gender"])
         newline = "\n"
         blank = " "
@@ -1642,7 +1660,6 @@ class ProfileScreen(Screens):
         self.debuginfo += f"facets: lawfulness ({self.the_cat.personality.lawfulness}), sociability ({self.the_cat.personality.sociability}), aggression ({self.the_cat.personality.aggression}), stability ({self.the_cat.personality.stability})" + newline + newline
         self.debuginfo += f"sex: {self.the_cat.gender}" + newline
         self.debuginfo += f"{sexuality}" + newline
-        
 
         # profile condenser
         if simpleprofile:
@@ -1690,8 +1707,7 @@ class ProfileScreen(Screens):
                         self.debuginfo += trait + ", "  # In case the trait is not found in the dictionary
                 self.debuginfo = self.debuginfo.rstrip(", ")  # Remove the trailing comma and space
         else: 
-            self.debuginfo += f"Attracted to: {self.the_cat.sexuality["gender"]}\n"
-
+            self.debuginfo = blank
         
         
     def toggle_extra_tab(self):
