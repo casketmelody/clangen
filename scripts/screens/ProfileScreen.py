@@ -918,14 +918,15 @@ class ProfileScreen(Screens):
     def generate_column1(self, the_cat):
         """Generate the left column information"""
         output = ""
-        simpleprofile = game_setting_get("less cat info") is True
+        simpleprofile = game_setting_get("less info")
         newline = "\n"
-        
-        if simpleprofile:
-            output += ""
-        else: 
-            output += "ID: " + str(the_cat.ID)
-            
+
+        if simpleprofile is True:
+            IDoutput = ""
+        elif simpleprofile is False: 
+            IDoutput = "ID: " + str(the_cat.ID)
+            output += IDoutput
+
         output += "\n"
 
         # SEX/GENDER
@@ -953,27 +954,26 @@ class ProfileScreen(Screens):
         else:
             # avoiding translation bc there are 500 eye colors and i dont hate myself
             output += "eyes: " + str(the_cat.describe_eyes())
+        
 
-        # NEWLINE ----------
-        output += "\n"
+        #COMEBACK
 
-        if simpleprofile:
-            output += ""
-        else:
-                # SKIN COLOR
-            output += "skin: " + str(the_cat.describe_skin()) + newline
-                # PELT TYPE
-            output += "pelt: " + the_cat.pelt.name.lower() + newline
-                # PELT LENGTH
-            output += "fur length: " + the_cat.pelt.length + newline
-                # FUR TEXTURE
-            output += "fur texture: " + the_cat.pelt.fur_texture + newline
-                # HEIGHT
-            output += "height: " + the_cat.pelt.height + newline
-                # BUILD
-            output += "build: " + the_cat.pelt.build + newline
-                # FUR LENGTH
-            output += "fur length: " + self.the_cat.pelt.length + newline
+        
+        if simpleprofile is True:
+            SPoutput = ""
+        elif simpleprofile is False:
+            skin = "skin: " + str(the_cat.describe_skin())
+            pelt = "pelt: " + the_cat.pelt.name.lower()
+            length = "fur length: " + the_cat.pelt.length
+            texture = "fur texture: " + the_cat.pelt.fur_texture
+            height = "height: " + the_cat.pelt.height
+            build = "build: " + the_cat.pelt.build
+            length = "fur length: " + self.the_cat.pelt.length
+
+            SPoutput = skin + newline + pelt + newline + length + newline + texture + newline + height + newline + build + newline + length
+        
+            output += "\n"
+            output += SPoutput
 
         # ACCESSORY
         if the_cat.pelt.accessory:
@@ -1064,7 +1064,7 @@ class ProfileScreen(Screens):
 
             bestie_names = []
             # Grab the names of only the first two, since that's all we will display
-            for _b in the_cat.bestie[:2]:
+            for _b in the_cat.bestie[:1]:
                 bestie_ob = Cat.fetch_cat(_b)
                 if not isinstance(bestie_ob, Cat):
                     continue
@@ -1084,12 +1084,12 @@ class ProfileScreen(Screens):
 
             bestie_block = ", ".join(bestie_names)
 
-            if len(the_cat.bestie) > 2:
+            if len(the_cat.bestie) > 1:
                 bestie_block = i18n.t(
                     "utility.items",
-                    count=2,
+                    count=1,
                     item1=bestie_block,
-                    item2=i18n.t("general.bestie_extra", count=len(the_cat.bestie) - 2),
+                    item2=i18n.t("general.bestie_extra", count=len(the_cat.bestie) - 1),
                 )
 
             output += i18n.t(
@@ -1313,10 +1313,10 @@ class ProfileScreen(Screens):
                 if isinstance(Cat.fetch_cat(i), Cat)
             ]
 
-            if len(apprentices) > 2:
-                apps = [i for i in apprentices[:2]]
+            if len(apprentices) > 1:
+                apps = [i for i in apprentices[:1]]
                 apps.append(
-                    i18n.t("general.apprentice_extra", count=len(apprentices) - 2)
+                    i18n.t("general.apprentice_extra", count=len(apprentices) - 1)
                 )
                 apps = apps
             else:
@@ -1666,8 +1666,8 @@ class ProfileScreen(Screens):
             # physique
             self.debuginfo += newline + "physique" + newline
 
-            if self.the_cat.pelt.scars:
-                self.debuginfo += f"scars: " + self.the_cat.pelt.scars + newline
+            # if self.the_cat.pelt.scars:
+            #     self.debuginfo += f"scars: " + self.the_cat.pelt.scars + newline
 
             self.debuginfo += "skin: " + self.the_cat.describe_skin() + f" ({self.the_cat.pelt.skin.lower()})"+ newline
             self.debuginfo += "pelt: " + self.the_cat.pelt.name.lower() + f" {self.the_cat.pelt.colour.lower()}" + newline
