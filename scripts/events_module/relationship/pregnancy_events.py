@@ -63,7 +63,7 @@ class Pregnancy_Events:
         living_cats = len(
             [i for i in Cat.all_cats.values() if i.status.alive_in_player_clan]
         )
-        return len(Pregnancy_Events.biggest_family) > (living_cats / 10)
+        return len(Pregnancy_Events.biggest_family) > (living_cats / 100)
 
     @staticmethod
     def handle_pregnancy_age(clan):
@@ -1209,7 +1209,7 @@ class Pregnancy_Events:
             or second_parent
             and second_parent.ID in Pregnancy_Events.biggest_family
         ):
-            inverse_chance = int(inverse_chance * 1.7)
+            inverse_chance = int(inverse_chance * 0)
 
         # - decrease inverse chance if the current family is small
         if len(first_parent.get_relatives(get_clan_setting("first cousin mates"))) < (
