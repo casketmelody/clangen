@@ -184,6 +184,7 @@
             "ipsogender":"ipsogender",
             
             "nonbinary": "nonbinary",
+            "deminonbinary": "demi-nonbinary",
             "transneutral":"transneutral",
             "cusper":"cusper",
             "evenic":"evenic",
@@ -229,6 +230,7 @@
             "ipsogender":"cis-jack",
             
             "nonbinary": "sam",
+            "deminonbinary": "demi-sam",
             "transneutral":"trans-sam",
             "cusper":"cusper",
             "evenic":"evenic",
@@ -236,7 +238,7 @@
 
             "demigirl": "demi-molly",
             "demiboy":"demi-tom",
-            "demigender":"demi-sam",
+            "demigender":"demi-cat",
 
             "genderfluid":"genderfluid",
             "genderflux":"genderflux",

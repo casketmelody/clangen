@@ -266,14 +266,16 @@ class ProfileScreen(Screens):
                 self.change_screen("family tree screen")
             elif event.ui_element == self.see_relationships_button:
                 self.change_screen("relationship screen")
-            elif event.ui_element == self.choose_mate_button:
-                self.change_screen("choose mate screen")
-            elif event.ui_element == self.choose_bestie_button:
-                self.change_screen("choose bestie screen")
-            elif event.ui_element == self.choose_enemy_button:
-                self.change_screen("choose enemy screen")
-            elif event.ui_element == self.change_adoptive_parent_button:
-                self.change_screen("choose adoptive parent screen")
+            elif event.ui_element==self.manage_rel_button:
+                self.change_screen("manage relationships")
+            # elif event.ui_element == self.choose_mate_button:
+            #     self.change_screen("choose mate screen")
+            # elif event.ui_element == self.choose_bestie_button:
+            #     self.change_screen("choose bestie screen")
+            # elif event.ui_element == self.choose_enemy_button:
+            #     self.change_screen("choose enemy screen")
+            # elif event.ui_element == self.change_adoptive_parent_button:
+            #     self.change_screen("choose adoptive parent screen")
 
         # Roles Tab
         elif self.open_tab == "roles":
@@ -2719,46 +2721,56 @@ class ProfileScreen(Screens):
                 starting_height=2,
                 manager=MANAGER,
             )
-            self.change_adoptive_parent_button = UISurfaceImageButton(
-                ui_scale(pygame.Rect((50, 486), (172, 36))),
-                "screens.profile.adoptive_parents",
-                get_button_dict(ButtonStyles.LADDER_MIDDLE, (172, 36)),
-                object_id="@buttonstyles_ladder_middle",
-                starting_height=2,
-                manager=MANAGER,
-            )
+            # self.change_adoptive_parent_button = UISurfaceImageButton(
+            #     ui_scale(pygame.Rect((50, 486), (172, 36))),
+            #     "screens.profile.adoptive_parents",
+            #     get_button_dict(ButtonStyles.LADDER_MIDDLE, (172, 36)),
+            #     object_id="@buttonstyles_ladder_middle",
+            #     starting_height=2,
+            #     manager=MANAGER,
+            # )
             self.see_relationships_button = UISurfaceImageButton(
-                ui_scale(pygame.Rect((50, 522), (172, 36))),
+                ui_scale(pygame.Rect((50, 0), (172, 36))),
                 "screens.profile.relationships",
                 get_button_dict(ButtonStyles.LADDER_MIDDLE, (172, 36)),
                 object_id="@buttonstyles_ladder_middle",
+                anchors={"top_target": self.family_tree_button},
                 starting_height=2,
                 manager=MANAGER,
             )
-            self.choose_bestie_button = UISurfaceImageButton(
-                ui_scale(pygame.Rect((50, 558), (172, 36))),
-                "screens.profile.bestie",
-                get_button_dict(ButtonStyles.LADDER_MIDDLE, (172, 36)),
-                object_id="@buttonstyles_ladder_middle",
-                starting_height=2,
-                manager=MANAGER,
-            )
-            self.choose_enemy_button = UISurfaceImageButton(
-                ui_scale(pygame.Rect((50, 594), (172, 36))),
-                "choose enemy",
-                get_button_dict(ButtonStyles.LADDER_MIDDLE, (172, 36)),
-                object_id="@buttonstyles_ladder_middle",
-                starting_height=2,
-                manager=MANAGER,
-            )
-            self.choose_mate_button = UISurfaceImageButton(
-                ui_scale(pygame.Rect((50, 630), (172, 36))),
-                "screens.profile.mate",
+            self.manage_rel_button = UISurfaceImageButton(
+                ui_scale(pygame.Rect((50, 0), (172, 36))),
+                "manage relationships",
                 get_button_dict(ButtonStyles.LADDER_BOTTOM, (172, 36)),
                 object_id="@buttonstyles_ladder_bottom",
+                anchors={"top_target": self.see_relationships_button},
                 starting_height=2,
                 manager=MANAGER,
             )
+            # self.choose_bestie_button = UISurfaceImageButton(
+            #     ui_scale(pygame.Rect((50, 558), (172, 36))),
+            #     "screens.profile.bestie",
+            #     get_button_dict(ButtonStyles.LADDER_MIDDLE, (172, 36)),
+            #     object_id="@buttonstyles_ladder_middle",
+            #     starting_height=2,
+            #     manager=MANAGER,
+            # )
+            # self.choose_enemy_button = UISurfaceImageButton(
+            #     ui_scale(pygame.Rect((50, 594), (172, 36))),
+            #     "choose enemy",
+            #     get_button_dict(ButtonStyles.LADDER_MIDDLE, (172, 36)),
+            #     object_id="@buttonstyles_ladder_middle",
+            #     starting_height=2,
+            #     manager=MANAGER,
+            # )
+            # self.choose_mate_button = UISurfaceImageButton(
+            #     ui_scale(pygame.Rect((50, 630), (172, 36))),
+            #     "screens.profile.mate",
+            #     get_button_dict(ButtonStyles.LADDER_BOTTOM, (172, 36)),
+            #     object_id="@buttonstyles_ladder_bottom",
+            #     starting_height=2,
+            #     manager=MANAGER,
+            # )
             self.update_disabled_buttons_and_text()
 
     def toggle_roles_tab(self):
@@ -2954,25 +2966,28 @@ class ProfileScreen(Screens):
         elif self.open_tab == "relations":
             if self.the_cat.dead:
                 self.see_relationships_button.disable()
-                self.change_adoptive_parent_button.disable()
+                # self.change_adoptive_parent_button.disable()
             else:
                 self.see_relationships_button.enable()
-                self.change_adoptive_parent_button.enable()
+                # self.change_adoptive_parent_button.enable()
 
-            if (
-                # self.the_cat.age not in ["young adult", "adult", "senior adult", "senior"] or 
-                not self.the_cat.status.alive_in_player_clan
-            ):
-                self.choose_mate_button.disable()
-            else:
-                self.choose_mate_button.enable()
+            # if (
+            #     # self.the_cat.age not in ["young adult", "adult", "senior adult", "senior"] or 
+            #     not self.the_cat.status.alive_in_player_clan
+            # ):
+            #     self.choose_mate_button.disable()
+            # else:
+            #     self.choose_mate_button.enable()
 
             if not self.the_cat.status.alive_in_player_clan:
-                self.choose_bestie_button.disable()
-                self.choose_enemy_button.disable()
+                self.manage_rel_button.disable()
+                # self.choose_bestie_button.disable()
+                # self.choose_enemy_button.disable()
             else:
-                self.choose_bestie_button.enable()
-                self.choose_enemy_button.enable()
+                self.manage_rel_button.enable()
+                # self.choose_bestie_button.enable()
+                # self.choose_enemy_button.enable()
+        
 
         # Roles Tab
         elif self.open_tab == "roles":
@@ -3340,10 +3355,11 @@ class ProfileScreen(Screens):
         elif self.open_tab == "relations":
             self.family_tree_button.kill()
             self.see_relationships_button.kill()
-            self.choose_mate_button.kill()
-            self.choose_bestie_button.kill()
-            self.choose_enemy_button.kill()
-            self.change_adoptive_parent_button.kill()
+            self.manage_rel_button.kill()
+            # self.choose_mate_button.kill()
+            # self.choose_bestie_button.kill()
+            # self.choose_enemy_button.kill()
+            # self.change_adoptive_parent_button.kill()
         elif self.open_tab == "roles":
             self.manage_roles.kill()
             self.debug_button.kill()

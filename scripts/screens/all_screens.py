@@ -4,10 +4,12 @@ from .CustomizeStatsScreen import CustomizeStatsScreen
 from .CeremonyScreen import CeremonyScreen
 from .ChangeGenderScreen import ChangeGenderScreen
 from .ChooseAdoptiveParentScreen import ChooseAdoptiveParentScreen
+from .ChooseBioParentScreen import ChooseBioParentScreen
 from .ChooseMateScreen import ChooseMateScreen
 from .ChooseBestieScreen import ChooseBestieScreen
 from .ChooseEnemyScreen import ChooseEnemyScreen
 from .ChooseMentorScreen import ChooseMentorScreen
+from .ManageRelationshipScreen import ManageRelationshipScreen
 from .ClanScreen import ClanScreen
 from .ClanSettingsScreen import ClanSettingsScreen
 from .ClearingScreen import ClearingScreen
@@ -91,9 +93,9 @@ class AllScreens:
     choose_bestie_screen = ChooseBestieScreen("choose bestie screen")
     choose_enemy_screen = ChooseEnemyScreen("choose enemy screen")
     choose_mentor_screen = ChooseMentorScreen("choose mentor screen")
-    choose_adoptive_parent_screen = ChooseAdoptiveParentScreen(
-        "choose adoptive parent screen"
-    )
+    choose_adoptive_parent_screen = ChooseAdoptiveParentScreen("choose adoptive parent screen")
+    choose_bio_parent_screen = ChooseBioParentScreen("choose bio parent screen")
+    manage_relationships = ManageRelationshipScreen("manage relationships")
     relationship_screen = RelationshipScreen("relationship screen")
     family_tree_screen = FamilyTreeScreen("family tree screen")
     mediation_screen = MediationScreen("mediation screen")
@@ -139,6 +141,8 @@ class AllScreens:
         cls.choose_adoptive_parent_screen = ChooseAdoptiveParentScreen(
             "choose adoptive parent screen"
         )
+        cls.choose_bio_parent_screen = ChooseBioParentScreen("choose bio parent screen")
+        cls.manage_relationships = ManageRelationshipScreen("manage relationships")
         cls.choose_bestie_screen = ChooseBestieScreen("choose bestie screen")
         cls.choose_enemy_screen = ChooseEnemyScreen("choose enemy screen")
         

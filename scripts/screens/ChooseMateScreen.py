@@ -106,7 +106,7 @@ class ChooseMateScreen(Screens):
             # Cat buttons list
             if event.ui_element == self.back_button:
                 self.selected_mate_index = 0
-                self.change_screen("profile screen")
+                self.change_screen("manage relationships")
             elif event.ui_element == self.toggle_mate:
                 if self.work_thread is not None and self.work_thread.is_alive():
                     return

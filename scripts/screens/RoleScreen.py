@@ -488,7 +488,7 @@ class RoleScreen(Screens):
             self.switch_denkeeper.disable()
             self.switch_gardener.disable()
             self.switch_storyteller.disable()
-            self.retire.disable()
+            self.retire.enable()
             self.kitmote.disable()
 
             # In-TRAINING ROLES:
@@ -777,6 +777,38 @@ class RoleScreen(Screens):
             self.switch_denkeeper_app.disable()
             self.switch_gardener_app.enable()
             self.switch_storyteller_app.disable()
+        
+        elif self.the_cat.status.rank == CatRank.STORYTELLER:
+            if leader_invalid:
+                self.promote_leader.enable()
+            else:
+                self.promote_leader.disable()
+
+            if deputy_invalid:
+                self.promote_deputy.enable()
+            else:
+                self.promote_deputy.disable()
+
+            self.switch_warrior.enable()
+            self.switch_med_cat.enable()
+            self.switch_mediator.enable()
+            self.switch_caretaker.enable()
+            self.switch_messenger.enable()
+            self.switch_denkeeper.enable()
+            self.switch_gardener.enable()
+            self.switch_storyteller.disable()
+            self.retire.enable()
+            self.kitmote.disable()
+
+            # In-TRAINING ROLES:
+            self.switch_med_app.disable()
+            self.switch_warrior_app.disable()
+            self.switch_mediator_app.disable()
+            self.switch_caretaker_app.disable()
+            self.switch_messenger_app.disable()
+            self.switch_denkeeper_app.disable()
+            self.switch_gardener_app.disable()
+            self.switch_storyteller_app.enable()
 
         elif self.the_cat.status.rank == CatRank.ELDER:
             if leader_invalid:
@@ -967,7 +999,7 @@ class RoleScreen(Screens):
             self.switch_gardener_app.disable()
             self.switch_storyteller_app.enable()
         
-        elif self.the_cat.status.rank == CatRank.GARDENER_APPRENTICE:
+        elif self.the_cat.status.rank == CatRank.STORYTELLER_APPRENTICE:
             self.promote_leader.disable()
             self.promote_deputy.disable()
 

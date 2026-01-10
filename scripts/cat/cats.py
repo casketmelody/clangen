@@ -4411,7 +4411,7 @@ class Cat:
                 self_relationship = self.relationships[other_cat.ID]
                 self_relationship.dislike -= randint(20, 60)
                 self_relationship.jealousy -= randint(10, 30)
-                self_relationship.like += randint(5, 15)
+                self_relationship.platonic_like += randint(5, 15)
                 self_relationship.enemies = False
                 if fight:
                     self_relationship.romantic_love -= randint(10, 30)
@@ -4424,7 +4424,7 @@ class Cat:
                 other_relationship = other_cat.relationships[self.ID]
                 other_relationship.dislike -= 40
                 other_relationship.jealousy -= 20
-                other_relationship.like += 10
+                other_relationship.platonic_like += 10
                 other_relationship.enemies = False
                 if fight:
                     self_relationship.romantic_love -= 20

@@ -361,6 +361,36 @@ class RomanticEvents:
         RomanticEvents.handle_breakup_events(cat)
         RomanticEvents.handle_new_mate_events(cat)
 
+    # @staticmethod
+    # def handle_new_bestie_events(cat):
+    #     """Triggers and handles any events that result in a new bestie"""
+
+    #     # First, check high platonic confession
+    #     flag = RomanticEvents.handle_pconfession(cat)
+    #     if flag:
+    #         return
+
+    #     # Then, handle more random mating
+    #     # Choose some subset of cats that they have relationships with
+    #     if not cat.relationships:
+    #         return
+    #     subset = [
+    #         Cat.fetch_cat(x)
+    #         for x in cat.relationships
+    #         if isinstance(Cat.fetch_cat(x), Cat)
+    #         and Cat.fetch_cat(x).status.alive_in_player_clan
+    #     ]
+    #     if not subset:
+    #         return
+
+    #     subset = random.sample(subset, max(int(len(subset) / 3), 1))
+
+    #     for other_cat in subset:
+    #         relationship = cat.relationships.get(other_cat.ID)
+    #         flag = RomanticEvents.handle_new_besties(cat, other_cat)
+    #         if flag:
+    #             return
+
     @staticmethod
     def handle_new_mate_events(cat):
         """Triggers and handles any events that result in a new mate"""
@@ -456,6 +486,25 @@ class RomanticEvents:
             return True
 
         return False
+    
+    # @staticmethod
+    # def handle_new_besties(cat_from, cat_to) -> bool:
+    #     """More in depth check if the cats will become besties."""
+
+    #     become_besties, bestie_string = RomanticEvents.check_if_new_bestie(cat_from, cat_to)
+
+    #     if become_besties and bestie_string:
+    #         cat_from.set_bestie(cat_to)
+    #         game.cur_events_list.append(
+    #             Single_Event(
+    #                 bestie_string,
+    #                 ["relation", "misc"],
+    #                 cat_dict={"m_c": cat_from, "r_c": cat_to},
+    #             )
+    #         )
+    #         return True
+
+    #     return False
 
     @staticmethod
     def handle_breakup(cat_from: Cat, cat_to: Cat) -> bool:
@@ -691,11 +740,100 @@ class RomanticEvents:
 
         return not int(random.random() * chance_number)
 
+    # @staticmethod
+    # def check_if_new_bestie(cat_from, cat_to):
+    #     """Checks if the two cats can become besties, or not. Returns: boolean and event_string"""
+    #     become_besties = False
+    #     # young_age = ["newborn", "kitten", "adolescent"]
+    #     if cat_to.status.is_outsider != cat_from.status.is_outsider:
+    #         return False, None
+
+    #     # if not cat_from.is_potential_mate(cat_to):
+    #     #     return False, None
+
+    #     if cat_from.ID in cat_to.bestie:
+    #         return False, None
+
+    #     # Gather relationships
+    #     if cat_to.ID in cat_from.relationships:
+    #         relationship_from = cat_from.relationships[cat_to.ID]
+    #     else:
+    #         relationship_from = cat_from.create_one_relationship(cat_to)
+
+    #     if cat_from.ID in cat_to.relationships:
+    #         relationship_to = cat_to.relationships[cat_from.ID]
+    #     else:
+    #         relationship_to = cat_to.create_one_relationship(cat_from)
+
+    #     bestie_string = None
+    #     bestie_chance = constants.CONFIG["bestie"]["chance_fulfilled_condition"]
+    #     hit = int(random.random() * bestie_chance)
+
+    #     # already return if there is 'no' hit (everything above 0), other checks are not necessary
+    #     if hit > 0 and random_hit > 0:
+    #         return False, None
+
+    #     alive_inclan_from_besties = [
+    #         bestie
+    #         for bestie in cat_from.bestie
+    #         if cat_from.fetch_cat(bestie).status.alive_in_player_clan
+    #     ]
+    #     alive_inclan_to_besties = [
+    #         bestie
+    #         for bestie in cat_to.bestie
+    #         if cat_to.fetch_cat(bestie).status.alive_in_player_clan
+    #     ]
+    #     poly = len(alive_inclan_from_besties) > 0 or len(alive_inclan_to_besties) > 0
+
+    #     if poly and not RomanticEvents.current_besties_allow_new_bestie(cat_from, cat_to):
+    #         return False, None
+
+    #     if (
+    #         not hit
+    #         and RomanticEvents.relationship_fulfill_condition(
+    #             relationship_from, constants.CONFIG["besties"]["bestie_condition"]
+    #         )
+    #         and RomanticEvents.relationship_fulfill_condition(
+    #             relationship_to, constants.CONFIG["besties"]["bestie_condition"]
+    #         )
+    #     ):
+    #         become_besties = True
+    #         bestie_string = RomanticEvents.get_bestie_string(
+    #             "low_platonic", poly, cat_from, cat_to
+    #         )
+    #     # if (
+    #     #     not random_hit
+    #     #     and RomanticEvents.relationship_fulfill_condition(
+    #     #         relationship_from, constants.CONFIG["besties"]["platonic_to_romantic"]
+    #     #     )
+    #     #     and RomanticEvents.relationship_fulfill_condition(
+    #     #         relationship_to, constants.CONFIG["mates"]["platonic_to_romantic"]
+    #     #     )
+    #     # ):
+    #     #     become_mates = True
+    #     #     mate_string = RomanticEvents.get_mate_string(
+    #     #         "platonic_to_romantic", poly, cat_from, cat_to
+    #     #     )
+
+    #     if not become_besties:
+    #         return False, None
+
+    #     if poly:
+    #         print("----- POLY-POLY-POLY", cat_from.name, cat_to.name)
+    #         print(cat_from.bestie)
+    #         print(cat_to.bestie)
+
+    #     bestie_string = RomanticEvents.prepare_relationship_string(
+    #         bestie_string, cat_from, cat_to
+    #     )
+
+    #     return become_besties, bestie_string
+
     @staticmethod
     def check_if_new_mate(cat_from, cat_to):
         """Checks if the two cats can become mates, or not. Returns: boolean and event_string"""
         become_mates = False
-        young_age = ["newborn", "kitten", "adolescent"]
+        # young_age = ["newborn", "kitten", "adolescent"]
         if cat_to.status.is_outsider != cat_from.status.is_outsider:
             return False, None
 
@@ -1016,6 +1154,35 @@ class RomanticEvents:
         )
         return mate_string
 
+    # @staticmethod
+    # def get_bestie_string(key, poly, cat_from, cat_to):
+    #     """Returns the bestie string with the certain key, cats and poly."""
+    #     RomanticEvents.rebuild_dicts()
+    #     if not poly:
+    #         return choice(RomanticEvents.BESTIE_DICTS[key])
+    #     else:
+    #         poly_key = ""
+    #         alive_inclan_from_besties = [
+    #             bestie
+    #             for bestie in cat_from.bestie
+    #             if cat_from.fetch_cat(bestie).status.alive_in_player_clan
+    #         ]
+    #         alive_inclan_to_besties = [
+    #             bestie
+    #             for bestie in cat_to.bestie
+    #             if cat_to.fetch_cat(bestie).status.alive_in_player_clan
+    #         ]
+    #         if len(alive_inclan_from_besties) > 0 and len(alive_inclan_to_besties) > 0:
+    #             poly_key = "both_besties"
+    #         elif len(alive_inclan_from_besties) > 0 and len(alive_inclan_to_besties) <= 0:
+    #             poly_key = "m_c_besties"
+    #         elif len(alive_inclan_from_besties) <= 0 and len(alive_inclan_to_besties) > 0:
+    #             poly_key = "r_c_besties"
+    #         if not poly_key:
+    #             # none of the other involved besties are alive
+    #             return None
+    #         return choice(RomanticEvents.POLY_BESTIE_DICTS[key][poly_key])
+        
     @staticmethod
     def get_mate_string(key, poly, cat_from, cat_to):
         """Returns the mate string with the certain key, cats and poly."""

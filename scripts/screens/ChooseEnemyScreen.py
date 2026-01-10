@@ -104,7 +104,7 @@ class ChooseEnemyScreen(Screens):
             # Cat buttons list
             if event.ui_element == self.back_button:
                 self.selected_enemy_index = 0
-                self.change_screen("profile screen")
+                self.change_screen("manage relationships")
             elif event.ui_element == self.toggle_enemy:
                 if self.work_thread is not None and self.work_thread.is_alive():
                     return
@@ -1083,19 +1083,19 @@ class ChooseEnemyScreen(Screens):
 
         # Set romantic hearts of current cat towards enemy or selected cat.
         if self.the_cat.dead:
-            platonic_like = 0
+            dislike = 0
         else:
             if self.selected_cat.ID in self.the_cat.relationships:
                 relation = self.the_cat.relationships[self.selected_cat.ID]
             else:
                 relation = self.the_cat.create_one_relationship(self.selected_cat)
-            platonic_like = relation.dislike
+            dislike = relation.dislike
 
-        if 10 <= platonic_like <= 30:
+        if 10 <= dislike <= 30:
             heart_number = 1
-        elif 31 <= platonic_like <= 80:
+        elif 31 <= dislike <= 80:
             heart_number = 2
-        elif 81 <= platonic_like:
+        elif 81 <= dislike:
             heart_number = 3
         else:
             heart_number = 0
@@ -1115,19 +1115,19 @@ class ChooseEnemyScreen(Screens):
 
         # Set romantic hearts of enemy/selected cat towards current_cat.
         if self.selected_cat.dead:
-            platonic_like = 0
+            dislike = 0
         else:
             if self.the_cat.ID in self.selected_cat.relationships:
                 relation = self.selected_cat.relationships[self.the_cat.ID]
             else:
                 relation = self.selected_cat.create_one_relationship(self.the_cat)
-            platonic_like = relation.platonic_like
+            dislike = relation.dislike
 
-        if 10 <= platonic_like <= 30:
+        if 10 <= dislike <= 30:
             heart_number = 1
-        elif 31 <= platonic_like <= 80:
+        elif 31 <= dislike <= 80:
             heart_number = 2
-        elif 81 <= platonic_like:
+        elif 81 <= dislike:
             heart_number = 3
         else:
             heart_number = 0
