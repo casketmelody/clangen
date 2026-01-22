@@ -577,8 +577,8 @@ class Pregnancy_Events:
         # decide chances of having kits, and if it's possible at all.
         # Including - age, dead statis, having kits turned off.
         not_correct_age = (
-            cat.age in [CatAge.NEWBORN, CatAge.KITTEN, CatAge.ADOLESCENT]
-            or cat.moons < 15
+            # cat.age in [CatAge.NEWBORN, CatAge.KITTEN, CatAge.ADOLESCENT] or 
+            cat.moons < 6
         )
         if not_correct_age or cat.no_kits or cat.dead:
             return False

@@ -948,7 +948,7 @@ class ChooseAdoptiveParentScreen(Screens):
                 mate = Cat.fetch_cat(mate_id)
                 mate_relatives = mate.get_relatives()
                 if possible_parent.ID in mate_relatives:
-                    return False
+                    return True
 
         return True
 

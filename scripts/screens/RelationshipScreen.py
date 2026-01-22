@@ -953,7 +953,7 @@ class RelationshipScreen(Screens):
         # ROMANTIC LOVE
         # CHECK AGE DIFFERENCE
         same_age = the_relationship.cat_to.age == self.the_cat.age
-        adult_ages = ["young adult", "adult", "senior adult", "senior"]
+        adult_ages = ["kitten","adolescent","young adult", "adult", "senior adult", "senior"]
         both_adult = (
             the_relationship.cat_to.age in adult_ages and self.the_cat.age in adult_ages
         )
@@ -962,11 +962,12 @@ class RelationshipScreen(Screens):
         # If they are not both adults, or the same age, OR they are related, don't display any romantic affection,
         # even if they somehow have some. They should not be able to get any, but it never hurts to check.
         if not check_age or related:
-            display_romantic = 0
+            # display_romantic = 0
+            display_romantic = the_relationship.romantic_love
             # Print, just for bug checking. Again, they should not be able to get love towards their relative.
             if the_relationship.romantic_love and related:
                 print(
-                    f"WARNING: {self.the_cat.name} has {the_relationship.romantic_love} romantic love towards their relative, {the_relationship.cat_to.name}"
+                    # f"WARNING: {self.the_cat.name} has {the_relationship.romantic_love} romantic love towards their relative, {the_relationship.cat_to.name}"
                 )
         else:
             display_romantic = the_relationship.romantic_love

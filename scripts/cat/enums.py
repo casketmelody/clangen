@@ -16,7 +16,7 @@ class CatAge(StrEnum):
         return self in (CatAge.KITTEN, CatAge.NEWBORN)
 
     def can_have_mate(self):
-        return self not in (CatAge.KITTEN, CatAge.NEWBORN, CatAge.ADOLESCENT)
+        return self in (CatAge.KITTEN, CatAge.NEWBORN, CatAge.ADOLESCENT,CatAge.YOUNG_ADULT,CatAge.ADULT,CatAge.SENIOR_ADULT,CatAge.SENIOR)
 
 
 class CatSocial(StrEnum):
