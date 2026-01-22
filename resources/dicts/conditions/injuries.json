@@ -2213,6 +2213,10 @@
             {
                 "name":"lingering shock",
                 "chance": 5
+            },
+            {
+                "name":"turmoiled litter",
+                "chance": 25
             }
         ],
         "also_got": [
